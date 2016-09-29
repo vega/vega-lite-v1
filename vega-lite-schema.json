@@ -818,7 +818,7 @@
                     "type": "number"
                 },
                 "padding": {
-                    "description": "The padding, in pixels, between the lengend and axis.",
+                    "description": "The padding, in pixels, between the legend and axis.",
                     "type": "number"
                 },
                 "margin": {
@@ -854,11 +854,11 @@
                     "type": "string"
                 },
                 "labelFont": {
-                    "description": "The font of the lengend label.",
+                    "description": "The font of the legend label.",
                     "type": "string"
                 },
                 "labelFontSize": {
-                    "description": "The font size of lengend lable.",
+                    "description": "The font size of legend label.",
                     "type": "number"
                 },
                 "labelOffset": {
@@ -878,7 +878,7 @@
                     "type": "string"
                 },
                 "symbolSize": {
-                    "description": "The size of the lengend symbol, in pixels.",
+                    "description": "The size of the legend symbol, in pixels.",
                     "type": "number"
                 },
                 "symbolStrokeWidth": {
@@ -994,7 +994,7 @@
                     "type": "string"
                 },
                 "mesh": {
-                    "description": "The name of the TopoJSON object set to convert to a mesh.\n\nSimilar to the `feature` option, `mesh` extracts a named TopoJSON object set.\n\nUnlike the `feature` option, the corresponding geo data is returned as a single, unified mesh instance, not as inidividual GeoJSON features.\n\nExtracting a mesh is useful for more efficiently drawing borders or other geographic elements that you do not need to associate with specific regions such as individual countries, states or counties.",
+                    "description": "The name of the TopoJSON object set to convert to a mesh.\n\nSimilar to the `feature` option, `mesh` extracts a named TopoJSON object set.\n\nUnlike the `feature` option, the corresponding geo data is returned as a single, unified mesh instance, not as individual GeoJSON features.\n\nExtracting a mesh is useful for more efficiently drawing borders or other geographic elements that you do not need to associate with specific regions such as individual countries, states or counties.",
                     "type": "string"
                 }
             }
@@ -1895,7 +1895,7 @@
                     "type": "number"
                 },
                 "padding": {
-                    "description": "The padding, in pixels, between the lengend and axis.",
+                    "description": "The padding, in pixels, between the legend and axis.",
                     "type": "number"
                 },
                 "margin": {
@@ -1931,11 +1931,11 @@
                     "type": "string"
                 },
                 "labelFont": {
-                    "description": "The font of the lengend label.",
+                    "description": "The font of the legend label.",
                     "type": "string"
                 },
                 "labelFontSize": {
-                    "description": "The font size of lengend lable.",
+                    "description": "The font size of legend label.",
                     "type": "number"
                 },
                 "labelOffset": {
@@ -1955,7 +1955,7 @@
                     "type": "string"
                 },
                 "symbolSize": {
-                    "description": "The size of the lengend symbol, in pixels.",
+                    "description": "The size of the legend symbol, in pixels.",
                     "type": "number"
                 },
                 "symbolStrokeWidth": {

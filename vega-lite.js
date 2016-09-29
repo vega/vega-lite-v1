@@ -1143,7 +1143,7 @@ function parseAxis(channel, model) {
 }
 exports.parseAxis = parseAxis;
 function format(model, channel) {
-    return common_1.numberFormat(model.fieldDef(channel), model.axis(channel).format, model.config());
+    return common_1.numberFormat(model.fieldDef(channel), model.axis(channel).format, model.config(), channel);
 }
 exports.format = format;
 function offset(model, channel) {
@@ -1442,12 +1442,12 @@ function applyMarkConfig(marksProperties, model, propsList) {
     return applyConfig(marksProperties, model.config().mark, propsList);
 }
 exports.applyMarkConfig = applyMarkConfig;
-function numberFormat(fieldDef, format, config) {
+function numberFormat(fieldDef, format, config, channel) {
     if (fieldDef.type === type_1.QUANTITATIVE && !fieldDef.bin) {
         if (format) {
             return format;
         }
-        else if (fieldDef.aggregate === aggregate_1.AggregateOp.COUNT) {
+        else if (fieldDef.aggregate === aggregate_1.AggregateOp.COUNT && channel === channel_1.TEXT) {
             return 'd';
         }
         return config.numberFormat;
@@ -1620,6 +1620,9 @@ var fielddef_1 = require('../../fielddef');
 var util_1 = require('../../util');
 var bin;
 (function (bin_2) {
+    function numberFormatExpr(format, expr) {
+        return "format('" + format + "', " + expr + ")";
+    }
     function parse(model) {
         return model.reduce(function (binComponent, fieldDef, channel) {
             var bin = model.fieldDef(channel).bin;
@@ -1639,12 +1642,16 @@ var bin;
                 var transform = [binTrans];
                 var isOrdinalColor = model.isOrdinalScale(channel) || channel === channel_1.COLOR;
                 if (isOrdinalColor) {
+                    var format = (model.axis(channel) || model.legend(channel) || {}).format ||
+                        model.config().numberFormat;
+                    var startField = fielddef_1.field(fieldDef, { datum: true, binSuffix: 'start' });
+                    var endField = fielddef_1.field(fieldDef, { datum: true, binSuffix: 'end' });
                     transform.push({
                         type: 'formula',
                         field: fielddef_1.field(fieldDef, { binSuffix: 'range' }),
-                        expr: fielddef_1.field(fieldDef, { datum: true, binSuffix: 'start' }) +
+                        expr: numberFormatExpr(format, startField) +
                             ' + \'-\' + ' +
-                            fielddef_1.field(fieldDef, { datum: true, binSuffix: 'end' })
+                            numberFormatExpr(format, endField)
                     });
                 }
                 var key = util_1.hash(bin) + '_' + fieldDef.field + 'oc:' + isOrdinalColor;
@@ -2526,7 +2533,7 @@ var FacetModel = (function (_super) {
         this._axis = this._initAxis(facet, config, child);
     }
     FacetModel.prototype._initConfig = function (specConfig, parent) {
-        return util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), specConfig, parent ? parent.config() : {});
+        return util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), parent ? parent.config() : {}, specConfig);
     };
     FacetModel.prototype._initFacet = function (facet) {
         facet = util_1.duplicate(facet);
@@ -3268,7 +3275,7 @@ function parseLegend(model, channel) {
     var config = model.config();
     var def = getLegendDefWithScale(model, channel);
     def.title = title(legend, fieldDef, config);
-    var format = common_1.numberFormat(fieldDef, legend.format, config);
+    var format = common_1.numberFormat(fieldDef, legend.format, config, channel);
     if (format) {
         def.format = format;
     }
@@ -4416,7 +4423,7 @@ var text;
         if (textFieldDef) {
             if (textFieldDef.field) {
                 if (type_1.QUANTITATIVE === textFieldDef.type) {
-                    var format = common_1.numberFormat(textFieldDef, config.mark.format, config);
+                    var format = common_1.numberFormat(textFieldDef, config.mark.format, config, channel_1.TEXT);
                     var filter = 'number' + (format ? ':\'' + format + '\'' : '');
                     return {
                         template: '{{' + fielddef_1.field(textFieldDef, { datum: true }) + ' | ' + filter + '}}'
@@ -4966,7 +4973,7 @@ function _useRawDomain(scale, model, channel) {
     return scale.useRawDomain &&
         fieldDef.aggregate &&
         aggregate_1.SHARED_DOMAIN_OPS.indexOf(fieldDef.aggregate) >= 0 &&
-        ((fieldDef.type === type_1.QUANTITATIVE && !fieldDef.bin) ||
+        ((fieldDef.type === type_1.QUANTITATIVE && !fieldDef.bin && scale.type !== scale_1.ScaleType.LOG) ||
             (fieldDef.type === type_1.TEMPORAL && util_1.contains([scale_1.ScaleType.TIME, scale_1.ScaleType.UTC], scale.type)));
 }
 function rangeMixins(scale, model, channel) {
@@ -5174,6 +5181,17 @@ var UnitModel = (function (_super) {
     };
     UnitModel.prototype._initConfig = function (specConfig, parent, mark, encoding) {
         var config = util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), parent ? parent.config() : {}, specConfig);
+        var hasFacetParent = false;
+        while (parent !== null) {
+            if (parent.isFacet()) {
+                hasFacetParent = true;
+                break;
+            }
+            parent = parent.parent();
+        }
+        if (hasFacetParent) {
+            config.cell = util_1.extend({}, config.cell, config.facet.cell);
+        }
         config.mark = config_2.initMarkConfig(mark, encoding, config);
         return config;
     };
@@ -5504,8 +5522,8 @@ exports.types = {
 "use strict";
 var util_1 = require('./util');
 function isDateTime(o) {
-    return !!o.year || !!o.quarter || !!o.month || !!o.date || !!o.day ||
-        !!o.hours || !!o.minutes || !!o.seconds || !!o.milliseconds;
+    return !!o && (!!o.year || !!o.quarter || !!o.month || !!o.date || !!o.day ||
+        !!o.hours || !!o.minutes || !!o.seconds || !!o.milliseconds);
 }
 exports.isDateTime = isDateTime;
 exports.MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
@@ -6912,7 +6930,7 @@ exports.transform = require('./transform');
 exports.type = require('./type');
 exports.util = require('./util');
 exports.validate = require('./validate');
-exports.version = '1.2.0';
+exports.version = '1.2.2';
 
 },{"./aggregate":7,"./axis":8,"./bin":9,"./channel":10,"./compile/compile":13,"./config":43,"./data":44,"./datetime":45,"./encoding":46,"./facet":47,"./fielddef":48,"./legend":50,"./mark":51,"./scale":52,"./shorthand":53,"./sort":54,"./spec":55,"./stack":56,"./timeunit":57,"./transform":58,"./type":59,"./util":60,"./validate":61}]},{},[63])(63)
 });
