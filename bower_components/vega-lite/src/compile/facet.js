@@ -30,17 +30,17 @@ var FacetModel = (function (_super) {
         this._axis = this._initAxis(facet, config, child);
     }
     FacetModel.prototype._initConfig = function (specConfig, parent) {
-        return util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), specConfig, parent ? parent.config() : {});
+        return util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), parent ? parent.config() : {}, specConfig);
     };
     FacetModel.prototype._initFacet = function (facet) {
         facet = util_1.duplicate(facet);
         var model = this;
         encoding_1.channelMappingForEach(this.channels(), facet, function (fieldDef, channel) {
-            if (!fielddef_1.isDimension(fieldDef)) {
-                model.addWarning(channel + ' encoding should be ordinal.');
-            }
             if (fieldDef.type) {
                 fieldDef.type = type_1.getFullName(fieldDef.type);
+            }
+            if (!fielddef_1.isDimension(fieldDef)) {
+                model.addWarning(channel + ' encoding should be ordinal.');
             }
         });
         return facet;

@@ -3,6 +3,7 @@ var aggregate_1 = require('../aggregate');
 var channel_1 = require('../channel');
 var config_1 = require('../config');
 var data_1 = require('../data');
+var datetime_1 = require('../datetime');
 var fielddef_1 = require('../fielddef');
 var mark_1 = require('../mark');
 var scale_1 = require('../scale');
@@ -173,10 +174,15 @@ exports.scaleBandSize = scaleBandSize;
 function domain(scale, model, channel) {
     var fieldDef = model.fieldDef(channel);
     if (scale.domain) {
+        if (datetime_1.isDateTime(scale.domain[0])) {
+            return scale.domain.map(function (dt) {
+                return datetime_1.timestamp(dt, true);
+            });
+        }
         return scale.domain;
     }
     if (fieldDef.type === type_1.TEMPORAL) {
-        if (timeunit_1.rawDomain(fieldDef.timeUnit, channel)) {
+        if (timeunit_1.imputedDomain(fieldDef.timeUnit, channel)) {
             return {
                 data: fieldDef.timeUnit,
                 field: 'date'
@@ -272,7 +278,7 @@ function _useRawDomain(scale, model, channel) {
     return scale.useRawDomain &&
         fieldDef.aggregate &&
         aggregate_1.SHARED_DOMAIN_OPS.indexOf(fieldDef.aggregate) >= 0 &&
-        ((fieldDef.type === type_1.QUANTITATIVE && !fieldDef.bin) ||
+        ((fieldDef.type === type_1.QUANTITATIVE && !fieldDef.bin && scale.type !== scale_1.ScaleType.LOG) ||
             (fieldDef.type === type_1.TEMPORAL && util_1.contains([scale_1.ScaleType.TIME, scale_1.ScaleType.UTC], scale.type)));
 }
 function rangeMixins(scale, model, channel) {

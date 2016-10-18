@@ -35,7 +35,7 @@ export namespace source {
         }
         const dataFormat: DataFormat = data.format || {};
 
-        // For backward compatability for former `data.formatType` property
+        // For backward compatibility for former `data.formatType` property
         const formatType: DataFormat = dataFormat.type || data['formatType'];
         sourceData.format =
           extend(
@@ -103,8 +103,6 @@ export namespace source {
         component.source.format.parse = component.formatParse;
       }
 
-      // null filter comes first so transforms are not performed on null values
-      // time and bin should come before filter so we can filter by time and bin
       sourceData.transform = [].concat(
         formula.assemble(component),
         nullFilter.assemble(component),

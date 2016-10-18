@@ -30,6 +30,13 @@ var Model = (function () {
         this._data = spec.data;
         this._description = spec.description;
         this._transform = spec.transform;
+        if (spec.transform) {
+            if (spec.transform.filterInvalid === undefined &&
+                spec.transform['filterNull'] !== undefined) {
+                spec.transform.filterInvalid = spec.transform['filterNull'];
+                console.warn('filterNull is deprecated. Please use filterInvalid instead.');
+            }
+        }
         this.component = { data: null, layout: null, mark: null, scale: null, axis: null, axisGroup: null, gridGroup: null, legend: null };
     }
     Model.prototype.parse = function () {
@@ -112,8 +119,18 @@ var Model = (function () {
     Model.prototype.sizeName = function (size) {
         return this._sizeNameMap.get(this.name(size, '_'));
     };
-    Model.prototype.transform = function () {
-        return this._transform || {};
+    Model.prototype.calculate = function () {
+        return this._transform ? this._transform.calculate : undefined;
+    };
+    Model.prototype.filterInvalid = function () {
+        var transform = this._transform || {};
+        if (transform.filterInvalid === undefined) {
+            return this.parent() ? this.parent().filterInvalid() : undefined;
+        }
+        return transform.filterInvalid;
+    };
+    Model.prototype.filter = function () {
+        return this._transform ? this._transform.filter : undefined;
     };
     Model.prototype.field = function (channel, opt) {
         if (opt === void 0) { opt = {}; }

@@ -34,12 +34,12 @@ var UnitModel = (function (_super) {
             parent ? parent['height'] : undefined;
         var mark = this._mark = spec.mark;
         var encoding = this._encoding = this._initEncoding(mark, spec.encoding || {});
-        var config = this._config = this._initConfig(spec.config, parent, mark, encoding);
+        this._stack = stack_1.stack(mark, encoding, ((spec.config || {}).mark || {}).stacked);
+        var config = this._config = this._initConfig(spec.config, parent, mark, encoding, this._stack);
         this._scale = this._initScale(mark, encoding, config, providedWidth, providedHeight);
         this._axis = this._initAxis(encoding, config);
         this._legend = this._initLegend(encoding, config);
         this._initSize(mark, this._scale, providedWidth, providedHeight, config.cell, config.scale);
-        this._stack = stack_1.stack(mark, encoding, config);
     }
     UnitModel.prototype._initEncoding = function (mark, encoding) {
         encoding = util_1.duplicate(encoding);
@@ -58,9 +58,20 @@ var UnitModel = (function (_super) {
         });
         return encoding;
     };
-    UnitModel.prototype._initConfig = function (specConfig, parent, mark, encoding) {
+    UnitModel.prototype._initConfig = function (specConfig, parent, mark, encoding, stack) {
         var config = util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), parent ? parent.config() : {}, specConfig);
-        config.mark = config_2.initMarkConfig(mark, encoding, config);
+        var hasFacetParent = false;
+        while (parent !== null) {
+            if (parent.isFacet()) {
+                hasFacetParent = true;
+                break;
+            }
+            parent = parent.parent();
+        }
+        if (hasFacetParent) {
+            config.cell = util_1.extend({}, config.cell, config.facet.cell);
+        }
+        config.mark = config_2.initMarkConfig(mark, encoding, stack, config);
         return config;
     };
     UnitModel.prototype._initScale = function (mark, encoding, config, topLevelWidth, topLevelHeight) {

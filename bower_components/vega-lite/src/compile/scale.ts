@@ -5,6 +5,7 @@ import {SHARED_DOMAIN_OPS} from '../aggregate';
 import {COLUMN, ROW, X, Y, X2, Y2, SHAPE, SIZE, COLOR, OPACITY, TEXT, hasScale, Channel} from '../channel';
 import {Orient} from '../config';
 import {SOURCE, STACKED_SCALE} from '../data';
+import {DateTime, isDateTime, timestamp} from '../datetime';
 import {FieldDef, field, isMeasure} from '../fielddef';
 import {Mark, BAR, TEXT as TEXTMARK, RULE, TICK} from '../mark';
 import {Scale, ScaleConfig, ScaleType, NiceTime, BANDSIZE_FIT, BandSize} from '../scale';
@@ -15,7 +16,7 @@ import {contains, extend, Dict} from '../util';
 import {VgScale} from '../vega.schema';
 
 import {Model} from './model';
-import {defaultScaleType, rawDomain, smallestUnit} from '../timeunit';
+import {defaultScaleType, imputedDomain, smallestUnit} from '../timeunit';
 import {UnitModel} from './unit';
 
 /**
@@ -241,12 +242,17 @@ export function domain(scale: Scale, model: Model, channel:Channel): any {
   const fieldDef = model.fieldDef(channel);
 
   if (scale.domain) { // explicit value
+    if (isDateTime(scale.domain[0])) {
+      return (scale.domain as DateTime[]).map((dt) => {
+        return timestamp(dt, true);
+      });
+    }
     return scale.domain;
   }
 
   // special case for temporal scale
   if (fieldDef.type === TEMPORAL) {
-    if (rawDomain(fieldDef.timeUnit, channel)) {
+    if (imputedDomain(fieldDef.timeUnit, channel)) {
       return {
         data: fieldDef.timeUnit,
         field: 'date'
@@ -371,7 +377,11 @@ function _useRawDomain (scale: Scale, model: Model, channel: Channel) {
       // Binned field has similar values in both the source table and the summary table
       // but the summary table has fewer values, therefore binned fields draw
       // domain values from the summary table.
-      (fieldDef.type === QUANTITATIVE && !fieldDef.bin) ||
+      // Meanwhile, we rely on non-positive filter inside summary data source, thus
+      // we can't use raw domain to feed into log scale
+      // FIXME(https://github.com/vega/vega-lite/issues/1537):
+      // consider allowing useRawDomain for log scale once we reimplement data sources
+      (fieldDef.type === QUANTITATIVE && !fieldDef.bin && scale.type !== ScaleType.LOG) ||
       // T uses non-ordinal scale when there's no unit or when the unit is not ordinal.
       (fieldDef.type === TEMPORAL && contains([ScaleType.TIME, ScaleType.UTC], scale.type))
     );

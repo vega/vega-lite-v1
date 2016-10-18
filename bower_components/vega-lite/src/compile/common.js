@@ -12,7 +12,7 @@ var timeunit_1 = require('../timeunit');
 var unit_1 = require('./unit');
 var spec_1 = require('../spec');
 function buildModel(spec, parent, parentGivenName) {
-    if (spec_1.isFacetSpec(spec)) {
+    if (spec_1.isSomeFacetSpec(spec)) {
         return new facet_1.FacetModel(spec, parent, parentGivenName);
     }
     if (spec_1.isLayerSpec(spec)) {
@@ -94,12 +94,12 @@ function applyMarkConfig(marksProperties, model, propsList) {
     return applyConfig(marksProperties, model.config().mark, propsList);
 }
 exports.applyMarkConfig = applyMarkConfig;
-function numberFormat(fieldDef, format, config) {
+function numberFormat(fieldDef, format, config, channel) {
     if (fieldDef.type === type_1.QUANTITATIVE && !fieldDef.bin) {
         if (format) {
             return format;
         }
-        else if (fieldDef.aggregate === aggregate_1.AggregateOp.COUNT) {
+        else if (fieldDef.aggregate === aggregate_1.AggregateOp.COUNT && channel === channel_1.TEXT) {
             return 'd';
         }
         return config.numberFormat;

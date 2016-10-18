@@ -1,6 +1,6 @@
 import {BAR, POINT, CIRCLE, SQUARE} from '../mark';
 import {AggregateOp} from '../aggregate';
-import {COLOR, OPACITY} from '../channel';
+import {COLOR, OPACITY, TEXT, Channel} from '../channel';
 import {Config} from '../config';
 import {FieldDef, field, OrderChannelDef} from '../fielddef';
 import {SortOrder} from '../sort';
@@ -13,11 +13,11 @@ import {LayerModel} from './layer';
 import {Model} from './model';
 import {template as timeUnitTemplate} from '../timeunit';
 import {UnitModel} from './unit';
-import {Spec, isUnitSpec, isFacetSpec, isLayerSpec} from '../spec';
+import {Spec, isUnitSpec, isSomeFacetSpec, isLayerSpec} from '../spec';
 
 
 export function buildModel(spec: Spec, parent: Model, parentGivenName: string): Model {
-  if (isFacetSpec(spec)) {
+  if (isSomeFacetSpec(spec)) {
     return new FacetModel(spec, parent, parentGivenName);
   }
 
@@ -117,13 +117,13 @@ export function applyMarkConfig(marksProperties, model: UnitModel, propsList: st
  *
  * @param format explicitly specified format
  */
-export function numberFormat(fieldDef: FieldDef, format: string, config: Config) {
+export function numberFormat(fieldDef: FieldDef, format: string, config: Config, channel: Channel) {
   if (fieldDef.type === QUANTITATIVE && !fieldDef.bin) {
     // add number format for quantitative type only
 
     if (format) {
       return format;
-    } else if (fieldDef.aggregate === AggregateOp.COUNT) {
+    } else if (fieldDef.aggregate === AggregateOp.COUNT && channel === TEXT) {
       // FIXME: need a more holistic way to deal with this.
       return 'd';
     }

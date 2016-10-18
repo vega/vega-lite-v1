@@ -139,7 +139,7 @@ function cardinalityExpr(model, channel) {
         return scale.domain.length;
     }
     var timeUnit = model.fieldDef(channel).timeUnit;
-    var timeUnitDomain = timeUnit ? timeunit_1.rawDomain(timeUnit, channel) : null;
+    var timeUnitDomain = timeUnit ? timeunit_1.imputedDomain(timeUnit, channel) : null;
     return timeUnitDomain !== null ? timeUnitDomain.length :
         model.field(channel, { datum: true, prefix: 'distinct' });
 }

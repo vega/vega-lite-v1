@@ -1,5 +1,6 @@
 "use strict";
 var channel_1 = require('../channel');
+var datetime_1 = require('../datetime');
 var fielddef_1 = require('../fielddef');
 var mark_1 = require('../mark');
 var type_1 = require('../type');
@@ -38,11 +39,15 @@ function parseLegend(model, channel) {
     var config = model.config();
     var def = getLegendDefWithScale(model, channel);
     def.title = title(legend, fieldDef, config);
-    var format = common_1.numberFormat(fieldDef, legend.format, config);
+    var format = common_1.numberFormat(fieldDef, legend.format, config, channel);
     if (format) {
         def.format = format;
     }
-    ['offset', 'orient', 'values'].forEach(function (property) {
+    var vals = values(legend);
+    if (vals) {
+        def.values = vals;
+    }
+    ['offset', 'orient'].forEach(function (property) {
         var value = legend[property];
         if (value !== undefined) {
             def[property] = value;
@@ -62,12 +67,22 @@ function parseLegend(model, channel) {
 }
 exports.parseLegend = parseLegend;
 function title(legend, fieldDef, config) {
-    if (typeof legend !== 'boolean' && legend.title) {
+    if (legend.title !== undefined) {
         return legend.title;
     }
     return fielddef_1.title(fieldDef, config);
 }
 exports.title = title;
+function values(legend) {
+    var vals = legend.values;
+    if (vals && datetime_1.isDateTime(vals[0])) {
+        return vals.map(function (dt) {
+            return datetime_1.timestamp(dt, true);
+        });
+    }
+    return vals;
+}
+exports.values = values;
 function useColorLegendScale(fieldDef) {
     return fieldDef.type === type_1.ORDINAL || fieldDef.bin || fieldDef.timeUnit;
 }

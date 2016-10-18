@@ -1,6 +1,7 @@
 "use strict";
 var axis_1 = require('../axis');
 var channel_1 = require('../channel');
+var datetime_1 = require('../datetime');
 var fielddef_1 = require('../fielddef');
 var type_1 = require('../type');
 var util_1 = require('../util');
@@ -61,8 +62,8 @@ function parseAxis(channel, model) {
         scale: model.scaleName(channel)
     };
     [
-        'format', 'grid', 'layer', 'offset', 'orient', 'tickSize', 'ticks', 'tickSizeEnd', 'title', 'titleOffset',
-        'tickPadding', 'tickSize', 'tickSizeMajor', 'tickSizeMinor', 'values', 'subdivide'
+        'format', 'grid', 'layer', 'offset', 'orient', 'tickSize', 'ticks', 'tickSizeEnd', 'title', 'titleOffset', 'values',
+        'tickPadding', 'tickSize', 'tickSizeMajor', 'tickSizeMinor', 'subdivide'
     ].forEach(function (property) {
         var method;
         var value = (method = exports[property]) ?
@@ -89,7 +90,7 @@ function parseAxis(channel, model) {
 }
 exports.parseAxis = parseAxis;
 function format(model, channel) {
-    return common_1.numberFormat(model.fieldDef(channel), model.axis(channel).format, model.config());
+    return common_1.numberFormat(model.fieldDef(channel), model.axis(channel).format, model.config(), channel);
 }
 exports.format = format;
 function offset(model, channel) {
@@ -190,6 +191,16 @@ function titleOffset(model, channel) {
     return undefined;
 }
 exports.titleOffset = titleOffset;
+function values(model, channel) {
+    var vals = model.axis(channel).values;
+    if (vals && datetime_1.isDateTime(vals[0])) {
+        return vals.map(function (dt) {
+            return datetime_1.timestamp(dt, true);
+        });
+    }
+    return vals;
+}
+exports.values = values;
 var properties;
 (function (properties) {
     function axis(model, channel, axisPropsSpec) {
@@ -268,7 +279,7 @@ var properties;
             }
         }
         if (axis.tickLabelColor !== undefined) {
-            labelsSpec.stroke = { value: axis.tickLabelColor };
+            labelsSpec.fill = { value: axis.tickLabelColor };
         }
         if (axis.tickLabelFont !== undefined) {
             labelsSpec.font = { value: axis.tickLabelFont };
