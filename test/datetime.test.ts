@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import {dateTimeExpr} from '../src/datetime';
+import {dateTimeExpr, timestamp} from '../src/datetime';
 
 
 describe('datetime', () => {
@@ -66,5 +66,32 @@ describe('datetime', () => {
     });
 
     // Note: Other part of coverage handled by timeUnit.fieldExpr's test
+  });
+
+  describe('timestamp', () => {
+    it('should produce correct timestamp', () => {
+      assert.equal(timestamp({
+        year: 1234,
+        month: 'June', // 5 = June
+        date: 6,
+        hours: 7,
+        minutes: 8,
+        seconds: 9,
+        milliseconds: 123
+      }, true), new Date(1234, 5, 6, 7, 8, 9, 123).getTime());
+    });
+
+    it('should produce correct timestamp for quarter', () => {
+      assert.equal(timestamp({
+        year: 1234,
+        quarter: 3,
+      }, true), new Date(1234, 6, 1).getTime());
+    });
+
+    it('should produce correct timestamp for day', () => {
+      assert.equal(timestamp({
+        day: 'monday'
+      }, true), new Date(2006, 0, 2).getTime());
+    });
   });
 });

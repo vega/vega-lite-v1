@@ -91,7 +91,7 @@ Custom domain values can be specified via the scale's `domain` property.
 
 | Property      | Type          | Description    |
 | :------------ |:-------------:| :------------- |
-| domain        | Array         | Custom domain values. For quantitative data, this can take the form of a two-element array with minimum and maximum values.  For ordinal data, this is an array representing all values and their orders. |
+| domain        | Array         | Custom domain values. <br/> • For _quantitative_ data, this can take the form of a two-element array with minimum and maximum values. <br/> • For _temporal_ data, this can, this can be a two-element array with minimum and maximum values in the form of either timestamp numbers or the [DateTime](transform.html#datetime) definition object.  <br/> • For _ordinal_ or _nominal_ data, this is an array representing all values and their orders.   |
 
 <!-- TODO:
 - Decide if we should write about custom domain for ordinal scale.
@@ -203,7 +203,7 @@ For ordinal, quantitative, and time fields, `range` can be a two-element array d
 | clamp         | Boolean       | If `true`, values that exceed the data domain are clamped to either the minimum or maximum range value. <span class="note-line">__Default value:__ derived from [scale config](config.html#scale-config) (`true` by default)<br/>__Supported types:__ only `linear`, `pow`, `sqrt`, and `log`</span> |
 | exponent      | Number        | Sets the exponent of the scale transformation. (For `pow` scale types only, otherwise ignored.) |
 | nice          | Boolean       | If `true`, modifies the scale domain to use a more human-friendly number range (e.g., 7 instead of 6.96). <span class="note-line">__Default value:__ `true` only for quantitative x and y scales and `false` otherwise.</span> |
-| zero          | Boolean       | If `true`, ensures that a zero baseline value is included in the scale domain. <span class="note-line">__Default value:__ `true` for `x` and `y` channel if the quantitative field is not binned and no custom `domain` is provided; `false` otherwise.</span> |
+| zero          | Boolean       | If `true`, ensures that a zero baseline value is included in the scale domain. <span class="note-line">__Default value:__ `true` for `x` and `y` channel if the quantitative field is not binned and no custom `domain` is provided; `false` otherwise.</span><span class="note-line">__Note:__  This property is always `false` for log scale.</span> |
 | useRawDomain  | Boolean       | If `true`, set scale domain to the raw data domain. If `false`, use the aggregated data domain for scale. <span class="note-line">__Default value:__ `false`<br/>__Only valid for certain aggregations:__ This property only works with aggregate functions that produce values within the raw data domain (`"mean"`, `"average"`, `"stdev"`, `"stdevp"`, `"median"`, `"q1"`, `"q3"`, `"min"`, `"max"`). For other aggregations that produce values outside of the raw data domain (e.g. `"count"`, `"sum"`), this property is ignored. <br/>__Note:__ This property is ignored when the scale's `domain` is specified.</span>|
 
 ### Time Scale Properties

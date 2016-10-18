@@ -1,5 +1,6 @@
 import {COLOR, SIZE, SHAPE, OPACITY, Channel} from '../channel';
 import {Config} from '../config';
+import {DateTime, isDateTime, timestamp} from '../datetime';
 import {FieldDef} from '../fielddef';
 import {Legend} from '../legend';
 import {title as fieldTitle} from '../fielddef';
@@ -59,9 +60,13 @@ export function parseLegend(model: UnitModel, channel: Channel): VgLegend {
   if (format) {
     def.format = format;
   }
+  const vals = values(legend);
+  if (vals) {
+    def.values = vals;
+  }
 
   // 1.2 Add properties without rules
-  ['offset', 'orient', 'values'].forEach(function(property) {
+  ['offset', 'orient'].forEach(function(property) {
     const value = legend[property];
     if (value !== undefined) {
       def[property] = value;
@@ -84,11 +89,22 @@ export function parseLegend(model: UnitModel, channel: Channel): VgLegend {
 }
 
 export function title(legend: Legend, fieldDef: FieldDef, config: Config) {
-  if (typeof legend !== 'boolean' && legend.title) {
+  if (legend.title !== undefined) {
     return legend.title;
   }
 
   return fieldTitle(fieldDef, config);
+}
+
+export function values(legend: Legend) {
+  const vals = legend.values;
+  if (vals && isDateTime(vals[0])) {
+    return (vals as DateTime[]).map((dt) => {
+      // normalize = true as end user won't put 0 = January
+      return timestamp(dt, true);
+    });
+  }
+  return vals;
 }
 
 // we have to use special scales for ordinal or binned fields for the color channel

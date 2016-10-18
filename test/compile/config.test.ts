@@ -45,6 +45,28 @@ describe('Config', function() {
       assert.equal(orient(model.mark(), model.encoding()), Orient.HORIZONTAL);
     });
 
+    it('should return correct orient for vertical bar with raw temporal dimension', function() {
+      const model = parseUnitModel({
+        "mark": "bar",
+        "encoding": {
+          "y": {"type": "quantitative", "field": "foo"},
+          "x": {"type": "temporal", "field": "bar"}
+        },
+      });
+      assert.equal(orient(model.mark(), model.encoding()), Orient.VERTICAL);
+    });
+
+    it('should return correct orient for horizontal bar with raw temporal dimension', function() {
+      const model = parseUnitModel({
+        "mark": "bar",
+        "encoding": {
+          "x": {"type": "quantitative", "field": "foo"},
+          "y": {"type": "temporal", "field": "bar"}
+        },
+      });
+      assert.equal(orient(model.mark(), model.encoding()), Orient.HORIZONTAL);
+    });
+
     it('should return correct orient for vertical tick', function() {
       const model = parseUnitModel({
         "mark": "tick",
@@ -56,6 +78,16 @@ describe('Config', function() {
       assert.equal(orient(model.mark(), model.encoding()), Orient.VERTICAL);
     });
 
+    it('should return correct orient for vertical tick with bin', function() {
+      const model = parseUnitModel({
+        "mark": "tick",
+        "encoding": {
+          "x": {"type": "quantitative", "field": "foo"},
+          "y": {"type": "quantitative", "field": "bar", "bin": true}
+        },
+      });
+      assert.equal(orient(model.mark(), model.encoding()), Orient.VERTICAL);
+    });
 
     it('should return correct orient for vertical tick of continuous timeUnit dotplot', function() {
       const model = parseUnitModel({

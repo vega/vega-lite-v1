@@ -38,6 +38,24 @@ describe('Legend', function() {
     });
   });
 
+  describe('values()', () => {
+    it('should return correct timestamp values for DateTimes', () => {
+      const values = legend.values({values: [{year: 1970}, {year: 1980}]});
+
+      assert.deepEqual(values, [
+        new Date(1970, 0, 1).getTime(),
+        new Date(1980, 0, 1).getTime()
+      ]);
+    });
+
+    it('should simply return values for non-DateTime', () => {
+      const values = legend.values({values: [1,2,3,4]});
+
+      assert.deepEqual(values, [1,2,3,4]);
+    });
+
+  });
+
   describe('properties.symbols', function() {
     it('should initialize if filled', function() {
       const symbol = legend.properties.symbols({field: 'a'}, {}, parseUnitModel({
@@ -202,7 +220,7 @@ describe('Legend', function() {
       });
       const fieldDef = {field: 'a', type: TEMPORAL, timeUnit: TimeUnit.MONTH};
       const label = legend.properties.labels(fieldDef, {}, model, COLOR);
-      let expected = "{{datum[\"data\"] | time:'%B'}}";
+      let expected = "{{datum[\"data\"] | time:'%b'}}";
       assert.deepEqual(label.text.template, expected);
     });
 

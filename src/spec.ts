@@ -10,7 +10,7 @@ import {stack} from './stack';
 import {Transform} from './transform';
 import {ROW, COLUMN, X, Y, X2, Y2} from './channel';
 import * as vlEncoding from './encoding';
-import {contains, duplicate, extend, keys, omit, pick} from './util';
+import {contains, duplicate, extend, hash, keys, omit, pick, vals} from './util';
 
 export interface BaseSpec {
   /**
@@ -119,7 +119,7 @@ export type Spec = UnitSpec | FacetSpec | LayerSpec;
 
 /* Custom type guards */
 
-export function isFacetSpec(spec: ExtendedSpec): spec is FacetSpec {
+export function isSomeFacetSpec(spec: ExtendedSpec | ExtendedFacetSpec): spec is FacetSpec | ExtendedFacetSpec {
   return spec['facet'] !== undefined;
 }
 
@@ -146,7 +146,7 @@ export function isSomeUnitSpec(spec: ExtendedSpec): spec is ExtendedUnitSpec | U
   return spec['mark'] !== undefined;
 }
 
-export function isLayerSpec(spec: ExtendedSpec): spec is LayerSpec {
+export function isLayerSpec(spec: ExtendedSpec | ExtendedFacetSpec): spec is LayerSpec {
   return spec['layers'] !== undefined;
 }
 
@@ -184,10 +184,15 @@ export function normalizeExtendedUnitSpec(spec: ExtendedUnitSpec): Spec {
           hasRow ? { row: spec.encoding.row } : {},
           hasColumn ? { column: spec.encoding.column } : {}
         ),
-        spec: normalizeUnitSpec({
-          mark: spec.mark,
-          encoding: encoding
-        })
+        spec: normalizeUnitSpec(extend(
+          spec.width ? { width: spec.width } : {},
+          spec.height ? { height: spec.height } : {},
+          {
+            mark: spec.mark,
+            encoding: encoding
+          },
+          spec.config ? { config: spec.config } : {}
+        ))
       },
       spec.config ? { config: spec.config } : {}
     );
@@ -210,11 +215,6 @@ export function normalizeUnitSpec(spec: UnitSpec): Spec {
   // TODO: thoroughly test
   if (isRanged(spec.encoding)) {
     return normalizeRangedUnitSpec(spec);
-  }
-
-  if (isStacked(spec)) {
-    // We can't overlay stacked area yet!
-    return spec;
   }
 
   if (overlayWithPoint || overlayWithLine) {
@@ -298,6 +298,12 @@ export function normalizeOverlay(spec: UnitSpec, overlayWithPoint: boolean, over
   delete baseConfig.overlay;
   // TODO: remove shape, size
 
+  // Need to copy stack config to overlayed layer
+  const stacked = stack(spec.mark,
+    spec.encoding,
+    spec.config && spec.config.mark ? spec.config.mark.stacked : undefined
+  );
+
   const layerSpec = extend(
     pick(spec, outerProps),
     { layers: [baseSpec] },
@@ -309,7 +315,11 @@ export function normalizeOverlay(spec: UnitSpec, overlayWithPoint: boolean, over
     let lineSpec = duplicate(baseSpec);
     lineSpec.mark = LINE;
     // TODO: remove shape, size
-    let markConfig = extend({}, defaultOverlayConfig.lineStyle, spec.config.overlay.lineStyle);
+    let markConfig = extend({},
+      defaultOverlayConfig.lineStyle,
+      spec.config.overlay.lineStyle,
+      stacked ? {stacked: stacked.offset} : null
+    );
     if (keys(markConfig).length > 0) {
       lineSpec.config = {mark: markConfig};
     }
@@ -321,7 +331,11 @@ export function normalizeOverlay(spec: UnitSpec, overlayWithPoint: boolean, over
     // TODO: add name with suffix
     let pointSpec = duplicate(baseSpec);
     pointSpec.mark = POINT;
-    let markConfig = extend({}, defaultOverlayConfig.pointStyle, spec.config.overlay.pointStyle);;
+    let markConfig = extend({},
+      defaultOverlayConfig.pointStyle,
+      spec.config.overlay.pointStyle,
+      stacked ? {stacked: stacked.offset} : null
+    );
     if (keys(markConfig).length > 0) {
       pointSpec.config = {mark: markConfig};
     }
@@ -332,11 +346,45 @@ export function normalizeOverlay(spec: UnitSpec, overlayWithPoint: boolean, over
 
 // TODO: add vl.spec.validate & move stuff from vl.validate to here
 
-export function fieldDefs(spec: ExtendedUnitSpec): FieldDef[] {
-  // TODO: refactor this once we have composition
-  return vlEncoding.fieldDefs(spec.encoding);
+/* Accumulate non-duplicate fieldDefs in a dictionary */
+function accumulate(dict: any, fieldDefs: FieldDef[]): any {
+  fieldDefs.forEach(function(fieldDef) {
+    // Consider only pure fieldDef properties (ignoring scale, axis, legend)
+    var pureFieldDef = ['field', 'type', 'value', 'timeUnit', 'bin', 'aggregate'].reduce((f, key) => {
+      if (fieldDef[key] !== undefined) {
+        f[key] = fieldDef[key];
+      }
+      return f;
+    }, {});
+    let key = hash(pureFieldDef);
+    dict[key] = dict[key] || fieldDef;
+  });
+  return dict;
+}
+
+/* Recursively get fieldDefs from a spec, returns a dictionary of fieldDefs */
+function fieldDefIndex(spec: ExtendedSpec | ExtendedFacetSpec, dict: any = {}): any {
+  // TODO: Support repeat and concat
+  if (isLayerSpec(spec)) {
+    spec.layers.forEach(function(layer) {
+      accumulate(dict, vlEncoding.fieldDefs(layer.encoding));
+    });
+  } else if (isSomeFacetSpec(spec)) {
+    accumulate(dict, vlEncoding.fieldDefs(spec.facet));
+    fieldDefIndex(spec.spec, dict);
+  } else { // Unit Spec
+    accumulate(dict, vlEncoding.fieldDefs(spec.encoding));
+  }
+  return dict;
+}
+
+/* Returns all non-duplicate fieldDefs in a spec in a flat array */
+export function fieldDefs(spec: ExtendedSpec | ExtendedFacetSpec): FieldDef[] {
+  return vals(fieldDefIndex(spec));
 };
 
 export function isStacked(spec: ExtendedUnitSpec): boolean {
-  return stack(spec.mark, spec.encoding, spec.config) !== null;
+  return stack(spec.mark, spec.encoding,
+           (spec.config && spec.config.mark) ? spec.config.mark.stacked : undefined
+         ) !== null;
 }

@@ -336,6 +336,33 @@ describe('Axis', function() {
     });
   });
 
+  describe('values', () => {
+    it('should return correct timestamp values for DateTimes', () => {
+      const values = axis.values(parseModel({
+        mark: "point",
+        encoding: {
+          y: {field: 'a', type: 'temporal', axis: {values: [{year: 1970}, {year: 1980}]}}
+        }
+      }), Y);
+
+      assert.deepEqual(values, [
+        new Date(1970, 0, 1).getTime(),
+        new Date(1980, 0, 1).getTime()
+      ]);
+    });
+
+    it('should simply return values for non-DateTime', () => {
+      const values = axis.values(parseModel({
+        mark: "point",
+        encoding: {
+          y: {field: 'a', type: 'quantitative', axis: {values: [1,2,3,4]}}
+        }
+      }), Y);
+
+      assert.deepEqual(values, [1,2,3,4]);
+    });
+  });
+
   describe('properties.axis()', function() {
     it('axisColor should change axis\'s color', function() {
         const model = parseModel({
@@ -472,7 +499,7 @@ describe('Axis', function() {
       });
       const labels = axis.properties.labels(model, X, {}, {type: 'x'});
       let quarterPrefix = 'Q';
-      let expected = '{{datum["data"] | time:\'%Y-\'}}' + quarterPrefix + '{{datum["data"] | quarter}}{{datum["data"] | time:\'-%B\'}}';
+      let expected = quarterPrefix + '{{datum["data"] | quarter}} {{datum["data"] | time:\'%b %Y\'}}';
       assert.deepEqual(labels.text.template, expected);
     });
 
@@ -484,7 +511,7 @@ describe('Axis', function() {
         }
       });
       const labels = axis.properties.labels(model, X, {}, {});
-      assert.equal(labels.stroke.value, "blue");
+      assert.equal(labels.fill.value, "blue");
     });
 
     it('tickLabelFont should change with axis\'s label\'s font', function() {
