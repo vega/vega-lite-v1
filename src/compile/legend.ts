@@ -13,6 +13,11 @@ import {COLOR_LEGEND, COLOR_LEGEND_LABEL} from './scale';
 import {UnitModel} from './unit';
 import {VgLegend} from '../vega.schema';
 
+/* tslint:disable:no-unused-variable */
+// These imports exist so the TS compiler can name publicly exported members in
+// The automatically created .d.ts correctly
+import {Bin} from '../bin';
+/* tslint:enable:no-unused-variable */
 
 export function parseLegendComponent(model: UnitModel): Dict<VgLegend> {
   return [COLOR, SIZE, SHAPE, OPACITY].reduce(function(legendComponent, channel) {
@@ -250,7 +255,7 @@ export namespace properties {
     }
 
     if (legend.labelColor !== undefined) {
-      labels.stroke = {value: legend.labelColor};
+      labels.fill = {value: legend.labelColor};
     }
 
     if (legend.labelFont !== undefined) {
@@ -276,7 +281,7 @@ export namespace properties {
     let titles:any = {};
 
     if (legend.titleColor !== undefined) {
-      titles.stroke = {value: legend.titleColor};
+      titles.fill = {value: legend.titleColor};
     }
 
     if (legend.titleFont !== undefined) {
