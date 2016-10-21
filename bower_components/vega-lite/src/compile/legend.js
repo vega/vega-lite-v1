@@ -206,7 +206,7 @@ var properties;
             labels.align = { value: legend.labelAlign };
         }
         if (legend.labelColor !== undefined) {
-            labels.stroke = { value: legend.labelColor };
+            labels.fill = { value: legend.labelColor };
         }
         if (legend.labelFont !== undefined) {
             labels.font = { value: legend.labelFont };
@@ -225,7 +225,7 @@ var properties;
         var legend = model.legend(channel);
         var titles = {};
         if (legend.titleColor !== undefined) {
-            titles.stroke = { value: legend.titleColor };
+            titles.fill = { value: legend.titleColor };
         }
         if (legend.titleFont !== undefined) {
             titles.font = { value: legend.titleFont };

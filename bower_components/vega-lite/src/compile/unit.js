@@ -128,7 +128,7 @@ var UnitModel = (function (_super) {
                 (channel === channel_1.X && vlEncoding.has(encoding, channel_1.X2)) ||
                 (channel === channel_1.Y && vlEncoding.has(encoding, channel_1.Y2))) {
                 var axisSpec = (encoding[channel] || {}).axis;
-                if (axisSpec !== false) {
+                if (axisSpec !== null && axisSpec !== false) {
                     _axis[channel] = util_1.extend({}, config.axis, axisSpec === true ? {} : axisSpec || {});
                 }
             }
@@ -139,7 +139,7 @@ var UnitModel = (function (_super) {
         return channel_1.NONSPATIAL_SCALE_CHANNELS.reduce(function (_legend, channel) {
             if (vlEncoding.has(encoding, channel)) {
                 var legendSpec = encoding[channel].legend;
-                if (legendSpec !== false) {
+                if (legendSpec !== null && legendSpec !== false) {
                     _legend[channel] = util_1.extend({}, config.legend, legendSpec === true ? {} : legendSpec || {});
                 }
             }

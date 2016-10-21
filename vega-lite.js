@@ -828,7 +828,7 @@ module.exports = function (value, replacer, space) {
 module.exports={
   "name": "vega-lite",
   "author": "Jeffrey Heer, Dominik Moritz, Kanit \"Ham\" Wongsuphasawat",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "collaborators": [
     "Kanit Wongsuphasawat <kanitw@gmail.com> (http://kanitw.yellowpigz.com)",
     "Dominik Moritz <domoritz@cs.washington.edu> (http://www.domoritz.de)",
@@ -836,6 +836,7 @@ module.exports={
   ],
   "description": "Vega-lite provides a higher-level grammar for visual analysis, comparable to ggplot or Tableau, that generates complete Vega specifications.",
   "main": "src/vl.js",
+  "types": "src/vl.d.ts",
   "bin": {
     "vl2png": "./bin/vl2png",
     "vl2svg": "./bin/vl2svg",
@@ -851,11 +852,11 @@ module.exports={
     "build:images": "npm run data && scripts/generate-images.sh",
     "build:toc": "bundle exec jekyll build --incremental -q && scripts/generate-toc",
     "cover": "npm run pretest && istanbul cover node_modules/.bin/_mocha -- --recursive",
-    "clean": "rm -f vega-lite.* vega-lite-schema.json & find src -name '*.js*' -type f -delete & find test -name '*.js*' -type f -delete & find site -name '*.js*' -type f -delete & rm -rf examples/_diff examples/_original examples/_output examples/images && rm -rf data",
+    "clean": "rm -f vega-lite.* vega-lite-schema.json & find -E src test site -regex '.*\\.(js|js.map|d.ts)' -delete & rm -rf examples/_diff examples/_original examples/_output examples/images && rm -rf data",
     "data": "rsync -r node_modules/vega-datasets/data/* data",
     "deploy": "scripts/deploy.sh",
     "deploy:gh": "scripts/deploy-gh.sh",
-    "lint": "tslint -c tslint.json 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "tslint -c tslint.json 'src/**/*.ts' 'test/**/*.ts' --exclude '**/*.d.ts'",
     "prestart": "npm run build && npm run data && scripts/index-examples",
     "start": "npm run watch & browser-sync start --server --files 'vega-lite.js' --index 'test-gallery.html'",
     "poststart": "rm examples/all-examples.json",
@@ -892,14 +893,13 @@ module.exports={
     "cheerio": "~0.22.0",
     "exorcist": "~0.4.0",
     "istanbul": "~0.4.5",
-    "json-diff": "^0.3.1",
     "mocha": "~3.1.2",
     "nodemon": "~1.11.0",
     "source-map-support": "~0.4.2",
     "tsify": "~2.0.2",
     "tslint": "~3.15.1",
     "typescript": "^2.0.3",
-    "typescript-json-schema": "~0.1.1",
+    "typescript-json-schema": "~0.2.0",
     "uglify-js": "~2.7.3",
     "vega": "~2.6.3",
     "vega-datasets": "vega/vega-datasets#gh-pages",
@@ -910,7 +910,7 @@ module.exports={
   "dependencies": {
     "datalib": "~1.7.2",
     "json-stable-stringify": "~1.0.1",
-    "yargs": "~6.0.0"
+    "yargs": "~6.3.0"
   }
 }
 
@@ -1443,7 +1443,7 @@ var properties;
     properties.ticks = ticks;
     function title(model, channel, titlePropsSpec) {
         var axis = model.axis(channel);
-        return util_1.extend(axis.titleColor !== undefined ? { stroke: { value: axis.titleColor } } : {}, axis.titleFont !== undefined ? { font: { value: axis.titleFont } } : {}, axis.titleFontSize !== undefined ? { fontSize: { value: axis.titleFontSize } } : {}, axis.titleFontWeight !== undefined ? { fontWeight: { value: axis.titleFontWeight } } : {}, titlePropsSpec || {});
+        return util_1.extend(axis.titleColor !== undefined ? { fill: { value: axis.titleColor } } : {}, axis.titleFont !== undefined ? { font: { value: axis.titleFont } } : {}, axis.titleFontSize !== undefined ? { fontSize: { value: axis.titleFontSize } } : {}, axis.titleFontWeight !== undefined ? { fontWeight: { value: axis.titleFontWeight } } : {}, titlePropsSpec || {});
     }
     properties.title = title;
 })(properties = exports.properties || (exports.properties = {}));
@@ -3596,7 +3596,7 @@ var properties;
             labels.align = { value: legend.labelAlign };
         }
         if (legend.labelColor !== undefined) {
-            labels.stroke = { value: legend.labelColor };
+            labels.fill = { value: legend.labelColor };
         }
         if (legend.labelFont !== undefined) {
             labels.font = { value: legend.labelFont };
@@ -3615,7 +3615,7 @@ var properties;
         var legend = model.legend(channel);
         var titles = {};
         if (legend.titleColor !== undefined) {
-            titles.stroke = { value: legend.titleColor };
+            titles.fill = { value: legend.titleColor };
         }
         if (legend.titleFont !== undefined) {
             titles.font = { value: legend.titleFont };
@@ -5496,7 +5496,7 @@ var UnitModel = (function (_super) {
                 (channel === channel_1.X && vlEncoding.has(encoding, channel_1.X2)) ||
                 (channel === channel_1.Y && vlEncoding.has(encoding, channel_1.Y2))) {
                 var axisSpec = (encoding[channel] || {}).axis;
-                if (axisSpec !== false) {
+                if (axisSpec !== null && axisSpec !== false) {
                     _axis[channel] = util_1.extend({}, config.axis, axisSpec === true ? {} : axisSpec || {});
                 }
             }
@@ -5507,7 +5507,7 @@ var UnitModel = (function (_super) {
         return channel_1.NONSPATIAL_SCALE_CHANNELS.reduce(function (_legend, channel) {
             if (vlEncoding.has(encoding, channel)) {
                 var legendSpec = encoding[channel].legend;
-                if (legendSpec !== false) {
+                if (legendSpec !== null && legendSpec !== false) {
                     _legend[channel] = util_1.extend({}, config.legend, legendSpec === true ? {} : legendSpec || {});
                 }
             }
