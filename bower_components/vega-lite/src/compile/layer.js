@@ -119,7 +119,7 @@ var LayerModel = (function (_super) {
                     }
                     util_1.vals(childScales).forEach(function (scale) {
                         var scaleNameWithoutPrefix = scale.name.substr(child.name('').length);
-                        var newName = model.scaleName(scaleNameWithoutPrefix);
+                        var newName = model.scaleName(scaleNameWithoutPrefix, true);
                         child.renameScale(scale.name, newName);
                         scale.name = newName;
                     });

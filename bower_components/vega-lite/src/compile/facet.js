@@ -126,7 +126,7 @@ var FacetModel = (function (_super) {
                 scaleComponent[channel] = child.component.scale[channel];
                 util_1.vals(scaleComponent[channel]).forEach(function (scale) {
                     var scaleNameWithoutPrefix = scale.name.substr(child.name('').length);
-                    var newName = model.scaleName(scaleNameWithoutPrefix);
+                    var newName = model.scaleName(scaleNameWithoutPrefix, true);
                     child.renameScale(scale.name, newName);
                     scale.name = newName;
                 });

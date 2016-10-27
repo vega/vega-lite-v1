@@ -37,7 +37,7 @@ function parseMainScale(model, fieldDef, channel) {
     var scale = model.scale(channel);
     var sort = model.sort(channel);
     var scaleDef = {
-        name: model.scaleName(channel),
+        name: model.scaleName(channel + '', true),
         type: scale.type,
     };
     if (channel === channel_1.X && model.has(channel_1.X2)) {
@@ -79,7 +79,7 @@ function parseMainScale(model, fieldDef, channel) {
 }
 function parseColorLegendScale(model, fieldDef) {
     return {
-        name: model.scaleName(exports.COLOR_LEGEND),
+        name: model.scaleName(exports.COLOR_LEGEND, true),
         type: scale_1.ScaleType.ORDINAL,
         domain: {
             data: model.dataTable(),
@@ -91,7 +91,7 @@ function parseColorLegendScale(model, fieldDef) {
 }
 function parseBinColorLegendLabel(model, fieldDef) {
     return {
-        name: model.scaleName(exports.COLOR_LEGEND_LABEL),
+        name: model.scaleName(exports.COLOR_LEGEND_LABEL, true),
         type: scale_1.ScaleType.ORDINAL,
         domain: {
             data: model.dataTable(),

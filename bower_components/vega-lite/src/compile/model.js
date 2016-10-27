@@ -4,12 +4,16 @@ var encoding_1 = require('../encoding');
 var fielddef_1 = require('../fielddef');
 var scale_1 = require('../scale');
 var util_1 = require('../util');
+var scale_2 = require('./scale');
 var NameMap = (function () {
     function NameMap() {
         this._nameMap = {};
     }
     NameMap.prototype.rename = function (oldName, newName) {
         this._nameMap[oldName] = newName;
+    };
+    NameMap.prototype.has = function (name) {
+        return this._nameMap[name] !== undefined;
     };
     NameMap.prototype.get = function (name) {
         while (this._nameMap[name]) {
@@ -152,8 +156,16 @@ var Model = (function () {
     Model.prototype.renameScale = function (oldName, newName) {
         this._scaleNameMap.rename(oldName, newName);
     };
-    Model.prototype.scaleName = function (channel) {
-        return this._scaleNameMap.get(this.name(channel + ''));
+    Model.prototype.scaleName = function (originalScaleName, parse) {
+        var channel = util_1.contains([scale_2.COLOR_LEGEND, scale_2.COLOR_LEGEND_LABEL], originalScaleName) ? 'color' : originalScaleName;
+        if (parse) {
+            return this.name(originalScaleName + '');
+        }
+        if ((this._scale && this._scale[channel]) ||
+            this._scaleNameMap.has(this.name(originalScaleName + ''))) {
+            return this._scaleNameMap.get(this.name(originalScaleName + ''));
+        }
+        return undefined;
     };
     Model.prototype.sort = function (channel) {
         return (this.mapping()[channel] || {}).sort;

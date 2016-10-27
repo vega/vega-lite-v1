@@ -828,7 +828,7 @@ module.exports = function (value, replacer, space) {
 module.exports={
   "name": "vega-lite",
   "author": "Jeffrey Heer, Dominik Moritz, Kanit \"Ham\" Wongsuphasawat",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "collaborators": [
     "Kanit Wongsuphasawat <kanitw@gmail.com> (http://kanitw.yellowpigz.com)",
     "Dominik Moritz <domoritz@cs.washington.edu> (http://www.domoritz.de)",
@@ -2051,7 +2051,7 @@ var formatParse;
                 val = f.range[0];
             }
             else if (filter_1.isOneOfFilter(f)) {
-                val = f.oneOf[0];
+                val = (f.oneOf || f['in'])[0];
             }
             if (!!val) {
                 if (datetime_1.isDateTime(val)) {
@@ -2782,7 +2782,7 @@ var FacetModel = (function (_super) {
                 scaleComponent[channel] = child.component.scale[channel];
                 util_1.vals(scaleComponent[channel]).forEach(function (scale) {
                     var scaleNameWithoutPrefix = scale.name.substr(child.name('').length);
-                    var newName = model.scaleName(scaleNameWithoutPrefix);
+                    var newName = model.scaleName(scaleNameWithoutPrefix, true);
                     child.renameScale(scale.name, newName);
                     scale.name = newName;
                 });
@@ -3153,7 +3153,7 @@ var LayerModel = (function (_super) {
                     }
                     util_1.vals(childScales).forEach(function (scale) {
                         var scaleNameWithoutPrefix = scale.name.substr(child.name('').length);
-                        var newName = model.scaleName(scaleNameWithoutPrefix);
+                        var newName = model.scaleName(scaleNameWithoutPrefix, true);
                         child.renameScale(scale.name, newName);
                         scale.name = newName;
                     });
@@ -4756,12 +4756,16 @@ var encoding_1 = require('../encoding');
 var fielddef_1 = require('../fielddef');
 var scale_1 = require('../scale');
 var util_1 = require('../util');
+var scale_2 = require('./scale');
 var NameMap = (function () {
     function NameMap() {
         this._nameMap = {};
     }
     NameMap.prototype.rename = function (oldName, newName) {
         this._nameMap[oldName] = newName;
+    };
+    NameMap.prototype.has = function (name) {
+        return this._nameMap[name] !== undefined;
     };
     NameMap.prototype.get = function (name) {
         while (this._nameMap[name]) {
@@ -4904,8 +4908,16 @@ var Model = (function () {
     Model.prototype.renameScale = function (oldName, newName) {
         this._scaleNameMap.rename(oldName, newName);
     };
-    Model.prototype.scaleName = function (channel) {
-        return this._scaleNameMap.get(this.name(channel + ''));
+    Model.prototype.scaleName = function (originalScaleName, parse) {
+        var channel = util_1.contains([scale_2.COLOR_LEGEND, scale_2.COLOR_LEGEND_LABEL], originalScaleName) ? 'color' : originalScaleName;
+        if (parse) {
+            return this.name(originalScaleName + '');
+        }
+        if ((this._scale && this._scale[channel]) ||
+            this._scaleNameMap.has(this.name(originalScaleName + ''))) {
+            return this._scaleNameMap.get(this.name(originalScaleName + ''));
+        }
+        return undefined;
     };
     Model.prototype.sort = function (channel) {
         return (this.mapping()[channel] || {}).sort;
@@ -4939,7 +4951,7 @@ var Model = (function () {
 }());
 exports.Model = Model;
 
-},{"../channel":11,"../encoding":47,"../fielddef":49,"../scale":53,"../util":61}],42:[function(require,module,exports){
+},{"../channel":11,"../encoding":47,"../fielddef":49,"../scale":53,"../util":61,"./scale":42}],42:[function(require,module,exports){
 "use strict";
 var aggregate_1 = require('../aggregate');
 var channel_1 = require('../channel');
@@ -4979,7 +4991,7 @@ function parseMainScale(model, fieldDef, channel) {
     var scale = model.scale(channel);
     var sort = model.sort(channel);
     var scaleDef = {
-        name: model.scaleName(channel),
+        name: model.scaleName(channel + '', true),
         type: scale.type,
     };
     if (channel === channel_1.X && model.has(channel_1.X2)) {
@@ -5021,7 +5033,7 @@ function parseMainScale(model, fieldDef, channel) {
 }
 function parseColorLegendScale(model, fieldDef) {
     return {
-        name: model.scaleName(exports.COLOR_LEGEND),
+        name: model.scaleName(exports.COLOR_LEGEND, true),
         type: scale_1.ScaleType.ORDINAL,
         domain: {
             data: model.dataTable(),
@@ -5033,7 +5045,7 @@ function parseColorLegendScale(model, fieldDef) {
 }
 function parseBinColorLegendLabel(model, fieldDef) {
     return {
-        name: model.scaleName(exports.COLOR_LEGEND_LABEL),
+        name: model.scaleName(exports.COLOR_LEGEND_LABEL, true),
         type: scale_1.ScaleType.ORDINAL,
         domain: {
             data: model.dataTable(),
