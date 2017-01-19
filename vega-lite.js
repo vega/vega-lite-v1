@@ -899,7 +899,7 @@ module.exports={
     "tsify": "~2.0.2",
     "tslint": "~3.15.1",
     "typescript": "^2.0.3",
-    "typescript-json-schema": "~0.2.0",
+    "typescript-json-schema": "~0.3.4",
     "uglify-js": "~2.7.3",
     "vega": "~2.6.3",
     "vega-datasets": "vega/vega-datasets#gh-pages",
@@ -916,6 +916,7 @@ module.exports={
 
 },{}],8:[function(require,module,exports){
 "use strict";
+var AggregateOp;
 (function (AggregateOp) {
     AggregateOp[AggregateOp["VALUES"] = 'values'] = "VALUES";
     AggregateOp[AggregateOp["COUNT"] = 'count'] = "COUNT";
@@ -937,8 +938,7 @@ module.exports={
     AggregateOp[AggregateOp["MAX"] = 'max'] = "MAX";
     AggregateOp[AggregateOp["ARGMIN"] = 'argmin'] = "ARGMIN";
     AggregateOp[AggregateOp["ARGMAX"] = 'argmax'] = "ARGMAX";
-})(exports.AggregateOp || (exports.AggregateOp = {}));
-var AggregateOp = exports.AggregateOp;
+})(AggregateOp = exports.AggregateOp || (exports.AggregateOp = {}));
 exports.AGGREGATE_OPS = [
     AggregateOp.VALUES,
     AggregateOp.COUNT,
@@ -982,13 +982,13 @@ exports.SHARED_DOMAIN_OPS = [
 
 },{}],9:[function(require,module,exports){
 "use strict";
+var AxisOrient;
 (function (AxisOrient) {
     AxisOrient[AxisOrient["TOP"] = 'top'] = "TOP";
     AxisOrient[AxisOrient["RIGHT"] = 'right'] = "RIGHT";
     AxisOrient[AxisOrient["LEFT"] = 'left'] = "LEFT";
     AxisOrient[AxisOrient["BOTTOM"] = 'bottom'] = "BOTTOM";
-})(exports.AxisOrient || (exports.AxisOrient = {}));
-var AxisOrient = exports.AxisOrient;
+})(AxisOrient = exports.AxisOrient || (exports.AxisOrient = {}));
 exports.defaultAxisConfig = {
     offset: undefined,
     grid: undefined,
@@ -1006,7 +1006,7 @@ exports.defaultFacetAxisConfig = {
 
 },{}],10:[function(require,module,exports){
 "use strict";
-var channel_1 = require('./channel');
+var channel_1 = require("./channel");
 function autoMaxBins(channel) {
     switch (channel) {
         case channel_1.ROW:
@@ -1022,7 +1022,8 @@ exports.autoMaxBins = autoMaxBins;
 
 },{"./channel":11}],11:[function(require,module,exports){
 "use strict";
-var util_1 = require('./util');
+var util_1 = require("./util");
+var Channel;
 (function (Channel) {
     Channel[Channel["X"] = 'x'] = "X";
     Channel[Channel["Y"] = 'y'] = "Y";
@@ -1039,8 +1040,7 @@ var util_1 = require('./util');
     Channel[Channel["PATH"] = 'path'] = "PATH";
     Channel[Channel["ORDER"] = 'order'] = "ORDER";
     Channel[Channel["OPACITY"] = 'opacity'] = "OPACITY";
-})(exports.Channel || (exports.Channel = {}));
-var Channel = exports.Channel;
+})(Channel = exports.Channel || (exports.Channel = {}));
 exports.X = Channel.X;
 exports.Y = Channel.Y;
 exports.X2 = Channel.X2;
@@ -1145,13 +1145,13 @@ exports.hasScale = hasScale;
 
 },{"./util":61}],12:[function(require,module,exports){
 "use strict";
-var axis_1 = require('../axis');
-var channel_1 = require('../channel');
-var datetime_1 = require('../datetime');
-var fielddef_1 = require('../fielddef');
-var type_1 = require('../type');
-var util_1 = require('../util');
-var common_1 = require('./common');
+var axis_1 = require("../axis");
+var channel_1 = require("../channel");
+var datetime_1 = require("../datetime");
+var fielddef_1 = require("../fielddef");
+var type_1 = require("../type");
+var util_1 = require("../util");
+var common_1 = require("./common");
 function parseAxisComponent(model, axisChannels) {
     return axisChannels.reduce(function (axis, channel) {
         if (model.axis(channel)) {
@@ -1450,18 +1450,18 @@ var properties;
 
 },{"../axis":9,"../channel":11,"../datetime":46,"../fielddef":49,"../type":60,"../util":61,"./common":13}],13:[function(require,module,exports){
 "use strict";
-var mark_1 = require('../mark');
-var aggregate_1 = require('../aggregate');
-var channel_1 = require('../channel');
-var fielddef_1 = require('../fielddef');
-var sort_1 = require('../sort');
-var type_1 = require('../type');
-var util_1 = require('../util');
-var facet_1 = require('./facet');
-var layer_1 = require('./layer');
-var timeunit_1 = require('../timeunit');
-var unit_1 = require('./unit');
-var spec_1 = require('../spec');
+var mark_1 = require("../mark");
+var aggregate_1 = require("../aggregate");
+var channel_1 = require("../channel");
+var fielddef_1 = require("../fielddef");
+var sort_1 = require("../sort");
+var type_1 = require("../type");
+var util_1 = require("../util");
+var facet_1 = require("./facet");
+var layer_1 = require("./layer");
+var timeunit_1 = require("../timeunit");
+var unit_1 = require("./unit");
+var spec_1 = require("../spec");
 function buildModel(spec, parent, parentGivenName) {
     if (spec_1.isSomeFacetSpec(spec)) {
         return new facet_1.FacetModel(spec, parent, parentGivenName);
@@ -1576,10 +1576,10 @@ exports.timeTemplate = timeTemplate;
 
 },{"../aggregate":8,"../channel":11,"../fielddef":49,"../mark":52,"../sort":55,"../spec":56,"../timeunit":58,"../type":60,"../util":61,"./facet":29,"./layer":30,"./unit":43}],14:[function(require,module,exports){
 "use strict";
-var data_1 = require('../data');
-var spec_1 = require('../spec');
-var util_1 = require('../util');
-var common_1 = require('./common');
+var data_1 = require("../data");
+var spec_1 = require("../spec");
+var util_1 = require("../util");
+var common_1 = require("./common");
 function compile(inputSpec) {
     var spec = spec_1.normalize(inputSpec);
     var model = common_1.buildModel(spec, null, '');
@@ -1620,15 +1620,15 @@ exports.assembleRootGroup = assembleRootGroup;
 
 },{"../data":45,"../spec":56,"../util":61,"./common":13}],15:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../channel');
-var config_1 = require('../config');
-var encoding_1 = require('../encoding');
-var fielddef_1 = require('../fielddef');
-var mark_1 = require('../mark');
-var scale_1 = require('../scale');
-var type_1 = require('../type');
-var util_1 = require('../util');
-var scale_2 = require('../compile/scale');
+var channel_1 = require("../channel");
+var config_1 = require("../config");
+var encoding_1 = require("../encoding");
+var fielddef_1 = require("../fielddef");
+var mark_1 = require("../mark");
+var scale_1 = require("../scale");
+var type_1 = require("../type");
+var util_1 = require("../util");
+var scale_2 = require("../compile/scale");
 function initMarkConfig(mark, encoding, stacked, config) {
     return util_1.extend(['filled', 'opacity', 'orient', 'align'].reduce(function (cfg, property) {
         var value = config.mark[property];
@@ -1736,10 +1736,10 @@ exports.orient = orient;
 
 },{"../channel":11,"../compile/scale":42,"../config":44,"../encoding":47,"../fielddef":49,"../mark":52,"../scale":53,"../type":60,"../util":61}],16:[function(require,module,exports){
 "use strict";
-var bin_1 = require('../../bin');
-var channel_1 = require('../../channel');
-var fielddef_1 = require('../../fielddef');
-var util_1 = require('../../util');
+var bin_1 = require("../../bin");
+var channel_1 = require("../../channel");
+var fielddef_1 = require("../../fielddef");
+var util_1 = require("../../util");
 var bin;
 (function (bin_2) {
     function numberFormatExpr(format, expr) {
@@ -1813,9 +1813,9 @@ var bin;
 
 },{"../../bin":10,"../../channel":11,"../../fielddef":49,"../../util":61}],17:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var type_1 = require('../../type');
-var util_1 = require('../../util');
+var channel_1 = require("../../channel");
+var type_1 = require("../../type");
+var util_1 = require("../../util");
 var colorRank;
 (function (colorRank) {
     function parseUnit(model) {
@@ -1865,19 +1865,19 @@ var colorRank;
 
 },{"../../channel":11,"../../type":60,"../../util":61}],18:[function(require,module,exports){
 "use strict";
-var util_1 = require('../../util');
-var source_1 = require('./source');
-var formatparse_1 = require('./formatparse');
-var nullfilter_1 = require('./nullfilter');
-var filter_1 = require('./filter');
-var bin_1 = require('./bin');
-var formula_1 = require('./formula');
-var nonpositivenullfilter_1 = require('./nonpositivenullfilter');
-var summary_1 = require('./summary');
-var stackscale_1 = require('./stackscale');
-var timeunit_1 = require('./timeunit');
-var timeunitdomain_1 = require('./timeunitdomain');
-var colorrank_1 = require('./colorrank');
+var util_1 = require("../../util");
+var source_1 = require("./source");
+var formatparse_1 = require("./formatparse");
+var nullfilter_1 = require("./nullfilter");
+var filter_1 = require("./filter");
+var bin_1 = require("./bin");
+var formula_1 = require("./formula");
+var nonpositivenullfilter_1 = require("./nonpositivenullfilter");
+var summary_1 = require("./summary");
+var stackscale_1 = require("./stackscale");
+var timeunit_1 = require("./timeunit");
+var timeunitdomain_1 = require("./timeunitdomain");
+var colorrank_1 = require("./colorrank");
 function parseUnitData(model) {
     return {
         formatParse: formatparse_1.formatParse.parseUnit(model),
@@ -1970,8 +1970,8 @@ exports.assembleData = assembleData;
 
 },{"../../util":61,"./bin":16,"./colorrank":17,"./filter":19,"./formatparse":20,"./formula":21,"./nonpositivenullfilter":22,"./nullfilter":23,"./source":24,"./stackscale":25,"./summary":26,"./timeunit":27,"./timeunitdomain":28}],19:[function(require,module,exports){
 "use strict";
-var filter_1 = require('../../filter');
-var util_1 = require('../../util');
+var filter_1 = require("../../filter");
+var util_1 = require("../../util");
 var filter;
 (function (filter_2) {
     function parse(model) {
@@ -2025,11 +2025,11 @@ var filter;
 
 },{"../../filter":50,"../../util":61}],20:[function(require,module,exports){
 "use strict";
-var datetime_1 = require('../../datetime');
-var fielddef_1 = require('../../fielddef');
-var filter_1 = require('../../filter');
-var type_1 = require('../../type');
-var util_1 = require('../../util');
+var datetime_1 = require("../../datetime");
+var fielddef_1 = require("../../fielddef");
+var filter_1 = require("../../filter");
+var type_1 = require("../../type");
+var util_1 = require("../../util");
 var formatParse;
 (function (formatParse) {
     function parse(model) {
@@ -2112,7 +2112,7 @@ var formatParse;
 
 },{"../../datetime":46,"../../fielddef":49,"../../filter":50,"../../type":60,"../../util":61}],21:[function(require,module,exports){
 "use strict";
-var util_1 = require('../../util');
+var util_1 = require("../../util");
 var formula;
 (function (formula_1) {
     function parse(model) {
@@ -2155,8 +2155,8 @@ var formula;
 
 },{"../../util":61}],22:[function(require,module,exports){
 "use strict";
-var scale_1 = require('../../scale');
-var util_1 = require('../../util');
+var scale_1 = require("../../scale");
+var util_1 = require("../../util");
 var nonPositiveFilter;
 (function (nonPositiveFilter_1) {
     function parseUnit(model) {
@@ -2207,8 +2207,8 @@ var nonPositiveFilter;
 
 },{"../../scale":53,"../../util":61}],23:[function(require,module,exports){
 "use strict";
-var type_1 = require('../../type');
-var util_1 = require('../../util');
+var type_1 = require("../../type");
+var util_1 = require("../../util");
 var DEFAULT_NULL_FILTERS = {
     nominal: false,
     ordinal: false,
@@ -2277,13 +2277,13 @@ var nullFilter;
 
 },{"../../type":60,"../../util":61}],24:[function(require,module,exports){
 "use strict";
-var data_1 = require('../../data');
-var util_1 = require('../../util');
-var nullfilter_1 = require('./nullfilter');
-var filter_1 = require('./filter');
-var bin_1 = require('./bin');
-var formula_1 = require('./formula');
-var timeunit_1 = require('./timeunit');
+var data_1 = require("../../data");
+var util_1 = require("../../util");
+var nullfilter_1 = require("./nullfilter");
+var filter_1 = require("./filter");
+var bin_1 = require("./bin");
+var formula_1 = require("./formula");
+var timeunit_1 = require("./timeunit");
 var source;
 (function (source) {
     function parse(model) {
@@ -2363,9 +2363,9 @@ var source;
 
 },{"../../data":45,"../../util":61,"./bin":16,"./filter":19,"./formula":21,"./nullfilter":23,"./timeunit":27}],25:[function(require,module,exports){
 "use strict";
-var data_1 = require('../../data');
-var fielddef_1 = require('../../fielddef');
-var util_1 = require('../../util');
+var data_1 = require("../../data");
+var fielddef_1 = require("../../fielddef");
+var util_1 = require("../../util");
 var stackScale;
 (function (stackScale) {
     function parseUnit(model) {
@@ -2424,10 +2424,10 @@ var stackScale;
 
 },{"../../data":45,"../../fielddef":49,"../../util":61}],26:[function(require,module,exports){
 "use strict";
-var aggregate_1 = require('../../aggregate');
-var data_1 = require('../../data');
-var fielddef_1 = require('../../fielddef');
-var util_1 = require('../../util');
+var aggregate_1 = require("../../aggregate");
+var data_1 = require("../../data");
+var fielddef_1 = require("../../fielddef");
+var util_1 = require("../../util");
 var summary;
 (function (summary) {
     function addDimension(dims, fieldDef) {
@@ -2553,10 +2553,10 @@ var summary;
 
 },{"../../aggregate":8,"../../data":45,"../../fielddef":49,"../../util":61}],27:[function(require,module,exports){
 "use strict";
-var fielddef_1 = require('../../fielddef');
-var timeunit_1 = require('../../timeunit');
-var type_1 = require('../../type');
-var util_1 = require('../../util');
+var fielddef_1 = require("../../fielddef");
+var timeunit_1 = require("../../timeunit");
+var type_1 = require("../../type");
+var util_1 = require("../../util");
 var timeUnit;
 (function (timeUnit) {
     function parse(model) {
@@ -2603,9 +2603,9 @@ var timeUnit;
 
 },{"../../fielddef":49,"../../timeunit":58,"../../type":60,"../../util":61}],28:[function(require,module,exports){
 "use strict";
-var datetime_1 = require('../../datetime');
-var timeunit_1 = require('../../timeunit');
-var util_1 = require('../../util');
+var datetime_1 = require("../../datetime");
+var timeunit_1 = require("../../timeunit");
+var util_1 = require("../../util");
 var timeUnitDomain;
 (function (timeUnitDomain) {
     function parse(model) {
@@ -2660,30 +2660,31 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var axis_1 = require('../axis');
-var channel_1 = require('../channel');
-var config_1 = require('../config');
-var data_1 = require('../data');
-var encoding_1 = require('../encoding');
-var fielddef_1 = require('../fielddef');
-var scale_1 = require('../scale');
-var type_1 = require('../type');
-var util_1 = require('../util');
-var axis_2 = require('./axis');
-var common_1 = require('./common');
-var data_2 = require('./data/data');
-var layout_1 = require('./layout');
-var model_1 = require('./model');
-var scale_2 = require('./scale');
+var axis_1 = require("../axis");
+var channel_1 = require("../channel");
+var config_1 = require("../config");
+var data_1 = require("../data");
+var encoding_1 = require("../encoding");
+var fielddef_1 = require("../fielddef");
+var scale_1 = require("../scale");
+var type_1 = require("../type");
+var util_1 = require("../util");
+var axis_2 = require("./axis");
+var common_1 = require("./common");
+var data_2 = require("./data/data");
+var layout_1 = require("./layout");
+var model_1 = require("./model");
+var scale_2 = require("./scale");
 var FacetModel = (function (_super) {
     __extends(FacetModel, _super);
     function FacetModel(spec, parent, parentGivenName) {
-        _super.call(this, spec, parent, parentGivenName);
-        var config = this._config = this._initConfig(spec.config, parent);
-        var child = this._child = common_1.buildModel(spec.spec, this, this.name('child'));
-        var facet = this._facet = this._initFacet(spec.facet);
-        this._scale = this._initScale(facet, config, child);
-        this._axis = this._initAxis(facet, config, child);
+        var _this = _super.call(this, spec, parent, parentGivenName) || this;
+        var config = _this._config = _this._initConfig(spec.config, parent);
+        var child = _this._child = common_1.buildModel(spec.spec, _this, _this.name('child'));
+        var facet = _this._facet = _this._initFacet(spec.facet);
+        _this._scale = _this._initScale(facet, config, child);
+        _this._axis = _this._initAxis(facet, config, child);
+        return _this;
     }
     FacetModel.prototype._initConfig = function (specConfig, parent) {
         return util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), parent ? parent.config() : {}, specConfig);
@@ -3038,24 +3039,24 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var util_1 = require('../util');
-var config_1 = require('../config');
-var data_1 = require('./data/data');
-var layout_1 = require('./layout');
-var model_1 = require('./model');
-var common_1 = require('./common');
-var vega_schema_1 = require('../vega.schema');
+var util_1 = require("../util");
+var config_1 = require("../config");
+var data_1 = require("./data/data");
+var layout_1 = require("./layout");
+var model_1 = require("./model");
+var common_1 = require("./common");
+var vega_schema_1 = require("../vega.schema");
 var LayerModel = (function (_super) {
     __extends(LayerModel, _super);
     function LayerModel(spec, parent, parentGivenName) {
-        var _this = this;
-        _super.call(this, spec, parent, parentGivenName);
-        this._width = spec.width;
-        this._height = spec.height;
-        this._config = this._initConfig(spec.config, parent);
-        this._children = spec.layers.map(function (layer, i) {
+        var _this = _super.call(this, spec, parent, parentGivenName) || this;
+        _this._width = spec.width;
+        _this._height = spec.height;
+        _this._config = _this._initConfig(spec.config, parent);
+        _this._children = spec.layers.map(function (layer, i) {
             return common_1.buildModel(layer, _this, _this.name('layer_' + i));
         });
+        return _this;
     }
     LayerModel.prototype._initConfig = function (specConfig, parent) {
         return util_1.mergeDeep(util_1.duplicate(config_1.defaultConfig), specConfig, parent ? parent.config() : {});
@@ -3241,11 +3242,11 @@ exports.LayerModel = LayerModel;
 
 },{"../config":44,"../util":61,"../vega.schema":63,"./common":13,"./data/data":18,"./layout":31,"./model":41}],31:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../channel');
-var data_1 = require('../data');
-var scale_1 = require('../scale');
-var util_1 = require('../util');
-var timeunit_1 = require('../timeunit');
+var channel_1 = require("../channel");
+var data_1 = require("../data");
+var scale_1 = require("../scale");
+var util_1 = require("../util");
+var timeunit_1 = require("../timeunit");
 function assembleLayout(model, layoutData) {
     var layoutComponent = model.component.layout;
     if (!layoutComponent.width && !layoutComponent.height) {
@@ -3389,14 +3390,14 @@ exports.cardinalityExpr = cardinalityExpr;
 
 },{"../channel":11,"../data":45,"../scale":53,"../timeunit":58,"../util":61}],32:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../channel');
-var datetime_1 = require('../datetime');
-var fielddef_1 = require('../fielddef');
-var mark_1 = require('../mark');
-var type_1 = require('../type');
-var util_1 = require('../util');
-var common_1 = require('./common');
-var scale_1 = require('./scale');
+var channel_1 = require("../channel");
+var datetime_1 = require("../datetime");
+var fielddef_1 = require("../fielddef");
+var mark_1 = require("../mark");
+var type_1 = require("../type");
+var util_1 = require("../util");
+var common_1 = require("./common");
+var scale_1 = require("./scale");
 function parseLegendComponent(model) {
     return [channel_1.COLOR, channel_1.SIZE, channel_1.SHAPE, channel_1.OPACITY].reduce(function (legendComponent, channel) {
         if (model.legend(channel)) {
@@ -3634,12 +3635,12 @@ var properties;
 
 },{"../channel":11,"../datetime":46,"../fielddef":49,"../mark":52,"../type":60,"../util":61,"./common":13,"./scale":42}],33:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var config_1 = require('../../config');
-var fielddef_1 = require('../../fielddef');
-var scale_1 = require('../../scale');
-var util_1 = require('../../util');
-var common_1 = require('../common');
+var channel_1 = require("../../channel");
+var config_1 = require("../../config");
+var fielddef_1 = require("../../fielddef");
+var scale_1 = require("../../scale");
+var util_1 = require("../../util");
+var common_1 = require("../common");
 var area;
 (function (area) {
     function markType() {
@@ -3789,12 +3790,12 @@ var area;
 
 },{"../../channel":11,"../../config":44,"../../fielddef":49,"../../scale":53,"../../util":61,"../common":13}],34:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var config_1 = require('../../config');
-var fielddef_1 = require('../../fielddef');
-var scale_1 = require('../../scale');
-var util_1 = require('../../util');
-var common_1 = require('../common');
+var channel_1 = require("../../channel");
+var config_1 = require("../../config");
+var fielddef_1 = require("../../fielddef");
+var scale_1 = require("../../scale");
+var util_1 = require("../../util");
+var common_1 = require("../common");
 var bar;
 (function (bar) {
     function markType() {
@@ -4047,9 +4048,9 @@ var bar;
 
 },{"../../channel":11,"../../config":44,"../../fielddef":49,"../../scale":53,"../../util":61,"../common":13}],35:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var fielddef_1 = require('../../fielddef');
-var common_1 = require('../common');
+var channel_1 = require("../../channel");
+var fielddef_1 = require("../../fielddef");
+var common_1 = require("../common");
 var line;
 (function (line) {
     function markType() {
@@ -4115,22 +4116,22 @@ var line;
 
 },{"../../channel":11,"../../fielddef":49,"../common":13}],36:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var config_1 = require('../../config');
-var encoding_1 = require('../../encoding');
-var fielddef_1 = require('../../fielddef');
-var mark_1 = require('../../mark');
-var scale_1 = require('../../scale');
-var sort_1 = require('../../sort');
-var util_1 = require('../../util');
-var area_1 = require('./area');
-var bar_1 = require('./bar');
-var common_1 = require('../common');
-var line_1 = require('./line');
-var point_1 = require('./point');
-var rule_1 = require('./rule');
-var text_1 = require('./text');
-var tick_1 = require('./tick');
+var channel_1 = require("../../channel");
+var config_1 = require("../../config");
+var encoding_1 = require("../../encoding");
+var fielddef_1 = require("../../fielddef");
+var mark_1 = require("../../mark");
+var scale_1 = require("../../scale");
+var sort_1 = require("../../sort");
+var util_1 = require("../../util");
+var area_1 = require("./area");
+var bar_1 = require("./bar");
+var common_1 = require("../common");
+var line_1 = require("./line");
+var point_1 = require("./point");
+var rule_1 = require("./rule");
+var text_1 = require("./text");
+var tick_1 = require("./tick");
 var markCompiler = {
     area: area_1.area,
     bar: bar_1.bar,
@@ -4324,9 +4325,9 @@ function stackTransform(model, stackFields) {
 
 },{"../../channel":11,"../../config":44,"../../encoding":47,"../../fielddef":49,"../../mark":52,"../../scale":53,"../../sort":55,"../../util":61,"../common":13,"./area":33,"./bar":34,"./line":35,"./point":37,"./rule":38,"./text":39,"./tick":40}],37:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var fielddef_1 = require('../../fielddef');
-var common_1 = require('../common');
+var channel_1 = require("../../channel");
+var fielddef_1 = require("../../fielddef");
+var common_1 = require("../common");
 var point;
 (function (point) {
     function markType() {
@@ -4436,9 +4437,9 @@ var square;
 
 },{"../../channel":11,"../../fielddef":49,"../common":13}],38:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var config_1 = require('../../config');
-var common_1 = require('../common');
+var channel_1 = require("../../channel");
+var config_1 = require("../../config");
+var common_1 = require("../common");
 var rule;
 (function (rule) {
     function markType() {
@@ -4529,10 +4530,10 @@ var rule;
 
 },{"../../channel":11,"../../config":44,"../common":13}],39:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var common_1 = require('../common');
-var fielddef_1 = require('../../fielddef');
-var type_1 = require('../../type');
+var channel_1 = require("../../channel");
+var common_1 = require("../common");
+var fielddef_1 = require("../../fielddef");
+var type_1 = require("../../type");
 var text;
 (function (text_1) {
     function markType() {
@@ -4659,10 +4660,10 @@ var text;
 
 },{"../../channel":11,"../../fielddef":49,"../../type":60,"../common":13}],40:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../../channel');
-var config_1 = require('../../config');
-var fielddef_1 = require('../../fielddef');
-var common_1 = require('../common');
+var channel_1 = require("../../channel");
+var config_1 = require("../../config");
+var fielddef_1 = require("../../fielddef");
+var common_1 = require("../common");
 var tick;
 (function (tick) {
     function markType() {
@@ -4751,12 +4752,12 @@ var tick;
 
 },{"../../channel":11,"../../config":44,"../../fielddef":49,"../common":13}],41:[function(require,module,exports){
 "use strict";
-var channel_1 = require('../channel');
-var encoding_1 = require('../encoding');
-var fielddef_1 = require('../fielddef');
-var scale_1 = require('../scale');
-var util_1 = require('../util');
-var scale_2 = require('./scale');
+var channel_1 = require("../channel");
+var encoding_1 = require("../encoding");
+var fielddef_1 = require("../fielddef");
+var scale_1 = require("../scale");
+var util_1 = require("../util");
+var scale_2 = require("./scale");
 var NameMap = (function () {
     function NameMap() {
         this._nameMap = {};
@@ -4953,19 +4954,19 @@ exports.Model = Model;
 
 },{"../channel":11,"../encoding":47,"../fielddef":49,"../scale":53,"../util":61,"./scale":42}],42:[function(require,module,exports){
 "use strict";
-var aggregate_1 = require('../aggregate');
-var channel_1 = require('../channel');
-var config_1 = require('../config');
-var data_1 = require('../data');
-var datetime_1 = require('../datetime');
-var fielddef_1 = require('../fielddef');
-var mark_1 = require('../mark');
-var scale_1 = require('../scale');
-var sort_1 = require('../sort');
-var stack_1 = require('../stack');
-var type_1 = require('../type');
-var util_1 = require('../util');
-var timeunit_1 = require('../timeunit');
+var aggregate_1 = require("../aggregate");
+var channel_1 = require("../channel");
+var config_1 = require("../config");
+var data_1 = require("../data");
+var datetime_1 = require("../datetime");
+var fielddef_1 = require("../fielddef");
+var mark_1 = require("../mark");
+var scale_1 = require("../scale");
+var sort_1 = require("../sort");
+var stack_1 = require("../stack");
+var type_1 = require("../type");
+var util_1 = require("../util");
+var timeunit_1 = require("../timeunit");
 exports.COLOR_LEGEND = 'color_legend';
 exports.COLOR_LEGEND_LABEL = 'color_legend_label';
 function parseScaleComponent(model) {
@@ -5384,42 +5385,43 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var aggregate_1 = require('../aggregate');
-var channel_1 = require('../channel');
-var config_1 = require('../config');
-var data_1 = require('../data');
-var vlEncoding = require('../encoding');
-var fielddef_1 = require('../fielddef');
-var mark_1 = require('../mark');
-var scale_1 = require('../scale');
-var type_1 = require('../type');
-var util_1 = require('../util');
-var axis_1 = require('./axis');
-var common_1 = require('./common');
-var config_2 = require('./config');
-var data_2 = require('./data/data');
-var legend_1 = require('./legend');
-var layout_1 = require('./layout');
-var model_1 = require('./model');
-var mark_2 = require('./mark/mark');
-var scale_2 = require('./scale');
-var stack_1 = require('../stack');
+var aggregate_1 = require("../aggregate");
+var channel_1 = require("../channel");
+var config_1 = require("../config");
+var data_1 = require("../data");
+var vlEncoding = require("../encoding");
+var fielddef_1 = require("../fielddef");
+var mark_1 = require("../mark");
+var scale_1 = require("../scale");
+var type_1 = require("../type");
+var util_1 = require("../util");
+var axis_1 = require("./axis");
+var common_1 = require("./common");
+var config_2 = require("./config");
+var data_2 = require("./data/data");
+var legend_1 = require("./legend");
+var layout_1 = require("./layout");
+var model_1 = require("./model");
+var mark_2 = require("./mark/mark");
+var scale_2 = require("./scale");
+var stack_1 = require("../stack");
 var UnitModel = (function (_super) {
     __extends(UnitModel, _super);
     function UnitModel(spec, parent, parentGivenName) {
-        _super.call(this, spec, parent, parentGivenName);
+        var _this = _super.call(this, spec, parent, parentGivenName) || this;
         var providedWidth = spec.width !== undefined ? spec.width :
             parent ? parent['width'] : undefined;
         var providedHeight = spec.height !== undefined ? spec.height :
             parent ? parent['height'] : undefined;
-        var mark = this._mark = spec.mark;
-        var encoding = this._encoding = this._initEncoding(mark, spec.encoding || {});
-        this._stack = stack_1.stack(mark, encoding, ((spec.config || {}).mark || {}).stacked);
-        var config = this._config = this._initConfig(spec.config, parent, mark, encoding, this._stack);
-        this._scale = this._initScale(mark, encoding, config, providedWidth, providedHeight);
-        this._axis = this._initAxis(encoding, config);
-        this._legend = this._initLegend(encoding, config);
-        this._initSize(mark, this._scale, providedWidth, providedHeight, config.cell, config.scale);
+        var mark = _this._mark = spec.mark;
+        var encoding = _this._encoding = _this._initEncoding(mark, spec.encoding || {});
+        _this._stack = stack_1.stack(mark, encoding, ((spec.config || {}).mark || {}).stacked);
+        var config = _this._config = _this._initConfig(spec.config, parent, mark, encoding, _this._stack);
+        _this._scale = _this._initScale(mark, encoding, config, providedWidth, providedHeight);
+        _this._axis = _this._initAxis(encoding, config);
+        _this._legend = _this._initLegend(encoding, config);
+        _this._initSize(mark, _this._scale, providedWidth, providedHeight, config.cell, config.scale);
+        return _this;
     }
     UnitModel.prototype._initEncoding = function (mark, encoding) {
         encoding = util_1.duplicate(encoding);
@@ -5636,9 +5638,9 @@ exports.UnitModel = UnitModel;
 
 },{"../aggregate":8,"../channel":11,"../config":44,"../data":45,"../encoding":47,"../fielddef":49,"../mark":52,"../scale":53,"../stack":57,"../type":60,"../util":61,"./axis":12,"./common":13,"./config":15,"./data/data":18,"./layout":31,"./legend":32,"./mark/mark":36,"./model":41,"./scale":42}],44:[function(require,module,exports){
 "use strict";
-var scale_1 = require('./scale');
-var axis_1 = require('./axis');
-var legend_1 = require('./legend');
+var scale_1 = require("./scale");
+var axis_1 = require("./axis");
+var legend_1 = require("./legend");
 exports.defaultCellConfig = {
     width: 200,
     height: 200
@@ -5658,11 +5660,12 @@ exports.defaultFacetConfig = {
     grid: defaultFacetGridConfig,
     cell: exports.defaultFacetCellConfig
 };
+var FontWeight;
 (function (FontWeight) {
     FontWeight[FontWeight["NORMAL"] = 'normal'] = "NORMAL";
     FontWeight[FontWeight["BOLD"] = 'bold'] = "BOLD";
-})(exports.FontWeight || (exports.FontWeight = {}));
-var FontWeight = exports.FontWeight;
+})(FontWeight = exports.FontWeight || (exports.FontWeight = {}));
+var Shape;
 (function (Shape) {
     Shape[Shape["CIRCLE"] = 'circle'] = "CIRCLE";
     Shape[Shape["SQUARE"] = 'square'] = "SQUARE";
@@ -5670,30 +5673,30 @@ var FontWeight = exports.FontWeight;
     Shape[Shape["DIAMOND"] = 'diamond'] = "DIAMOND";
     Shape[Shape["TRIANGLEUP"] = 'triangle-up'] = "TRIANGLEUP";
     Shape[Shape["TRIANGLEDOWN"] = 'triangle-down'] = "TRIANGLEDOWN";
-})(exports.Shape || (exports.Shape = {}));
-var Shape = exports.Shape;
+})(Shape = exports.Shape || (exports.Shape = {}));
+var Orient;
 (function (Orient) {
     Orient[Orient["HORIZONTAL"] = 'horizontal'] = "HORIZONTAL";
     Orient[Orient["VERTICAL"] = 'vertical'] = "VERTICAL";
-})(exports.Orient || (exports.Orient = {}));
-var Orient = exports.Orient;
+})(Orient = exports.Orient || (exports.Orient = {}));
+var HorizontalAlign;
 (function (HorizontalAlign) {
     HorizontalAlign[HorizontalAlign["LEFT"] = 'left'] = "LEFT";
     HorizontalAlign[HorizontalAlign["RIGHT"] = 'right'] = "RIGHT";
     HorizontalAlign[HorizontalAlign["CENTER"] = 'center'] = "CENTER";
-})(exports.HorizontalAlign || (exports.HorizontalAlign = {}));
-var HorizontalAlign = exports.HorizontalAlign;
+})(HorizontalAlign = exports.HorizontalAlign || (exports.HorizontalAlign = {}));
+var VerticalAlign;
 (function (VerticalAlign) {
     VerticalAlign[VerticalAlign["TOP"] = 'top'] = "TOP";
     VerticalAlign[VerticalAlign["MIDDLE"] = 'middle'] = "MIDDLE";
     VerticalAlign[VerticalAlign["BOTTOM"] = 'bottom'] = "BOTTOM";
-})(exports.VerticalAlign || (exports.VerticalAlign = {}));
-var VerticalAlign = exports.VerticalAlign;
+})(VerticalAlign = exports.VerticalAlign || (exports.VerticalAlign = {}));
+var FontStyle;
 (function (FontStyle) {
     FontStyle[FontStyle["NORMAL"] = 'normal'] = "NORMAL";
     FontStyle[FontStyle["ITALIC"] = 'italic'] = "ITALIC";
-})(exports.FontStyle || (exports.FontStyle = {}));
-var FontStyle = exports.FontStyle;
+})(FontStyle = exports.FontStyle || (exports.FontStyle = {}));
+var Interpolate;
 (function (Interpolate) {
     Interpolate[Interpolate["LINEAR"] = 'linear'] = "LINEAR";
     Interpolate[Interpolate["LINEAR_CLOSED"] = 'linear-closed'] = "LINEAR_CLOSED";
@@ -5708,14 +5711,13 @@ var FontStyle = exports.FontStyle;
     Interpolate[Interpolate["CARDINAL_CLOSED"] = 'cardinal-closed'] = "CARDINAL_CLOSED";
     Interpolate[Interpolate["BUNDLE"] = 'bundle'] = "BUNDLE";
     Interpolate[Interpolate["MONOTONE"] = 'monotone'] = "MONOTONE";
-})(exports.Interpolate || (exports.Interpolate = {}));
-var Interpolate = exports.Interpolate;
+})(Interpolate = exports.Interpolate || (exports.Interpolate = {}));
+var AreaOverlay;
 (function (AreaOverlay) {
     AreaOverlay[AreaOverlay["LINE"] = 'line'] = "LINE";
     AreaOverlay[AreaOverlay["LINEPOINT"] = 'linepoint'] = "LINEPOINT";
     AreaOverlay[AreaOverlay["NONE"] = 'none'] = "NONE";
-})(exports.AreaOverlay || (exports.AreaOverlay = {}));
-var AreaOverlay = exports.AreaOverlay;
+})(AreaOverlay = exports.AreaOverlay || (exports.AreaOverlay = {}));
 exports.defaultOverlayConfig = {
     line: false,
     pointStyle: { filled: true },
@@ -5749,21 +5751,21 @@ exports.defaultConfig = {
 
 },{"./axis":9,"./legend":51,"./scale":53}],45:[function(require,module,exports){
 "use strict";
-var type_1 = require('./type');
+var type_1 = require("./type");
+var DataFormatType;
 (function (DataFormatType) {
     DataFormatType[DataFormatType["JSON"] = 'json'] = "JSON";
     DataFormatType[DataFormatType["CSV"] = 'csv'] = "CSV";
     DataFormatType[DataFormatType["TSV"] = 'tsv'] = "TSV";
     DataFormatType[DataFormatType["TOPOJSON"] = 'topojson'] = "TOPOJSON";
-})(exports.DataFormatType || (exports.DataFormatType = {}));
-var DataFormatType = exports.DataFormatType;
+})(DataFormatType = exports.DataFormatType || (exports.DataFormatType = {}));
+var DataTable;
 (function (DataTable) {
     DataTable[DataTable["SOURCE"] = 'source'] = "SOURCE";
     DataTable[DataTable["SUMMARY"] = 'summary'] = "SUMMARY";
     DataTable[DataTable["STACKED_SCALE"] = 'stacked_scale'] = "STACKED_SCALE";
     DataTable[DataTable["LAYOUT"] = 'layout'] = "LAYOUT";
-})(exports.DataTable || (exports.DataTable = {}));
-var DataTable = exports.DataTable;
+})(DataTable = exports.DataTable || (exports.DataTable = {}));
 exports.SUMMARY = DataTable.SUMMARY;
 exports.SOURCE = DataTable.SOURCE;
 exports.STACKED_SCALE = DataTable.STACKED_SCALE;
@@ -5778,7 +5780,7 @@ exports.types = {
 
 },{"./type":60}],46:[function(require,module,exports){
 "use strict";
-var util_1 = require('./util');
+var util_1 = require("./util");
 var SUNDAY_YEAR = 2006;
 function isDateTime(o) {
     return !!o && (!!o.year || !!o.quarter || !!o.month || !!o.date || !!o.day ||
@@ -5934,8 +5936,8 @@ exports.dateTimeExpr = dateTimeExpr;
 
 },{"./util":61}],47:[function(require,module,exports){
 "use strict";
-var channel_1 = require('./channel');
-var util_1 = require('./util');
+var channel_1 = require("./channel");
+var util_1 = require("./util");
 function countRetinal(encoding) {
     var count = 0;
     if (encoding.color) {
@@ -6064,10 +6066,10 @@ exports.channelMappingReduce = channelMappingReduce;
 
 },{}],49:[function(require,module,exports){
 "use strict";
-var aggregate_1 = require('./aggregate');
-var scale_1 = require('./scale');
-var type_1 = require('./type');
-var util_1 = require('./util');
+var aggregate_1 = require("./aggregate");
+var scale_1 = require("./scale");
+var type_1 = require("./type");
+var util_1 = require("./util");
 function field(fieldDef, opt) {
     if (opt === void 0) { opt = {}; }
     var field = fieldDef.field;
@@ -6155,10 +6157,10 @@ exports.title = title;
 
 },{"./aggregate":8,"./scale":53,"./type":60,"./util":61}],50:[function(require,module,exports){
 "use strict";
-var datetime_1 = require('./datetime');
-var fielddef_1 = require('./fielddef');
-var timeunit_1 = require('./timeunit');
-var util_1 = require('./util');
+var datetime_1 = require("./datetime");
+var fielddef_1 = require("./fielddef");
+var timeunit_1 = require("./timeunit");
+var util_1 = require("./util");
 function isEqualFilter(filter) {
     return filter && !!filter.field && filter.equal !== undefined;
 }
@@ -6235,6 +6237,7 @@ exports.defaultLegendConfig = {
 
 },{}],52:[function(require,module,exports){
 "use strict";
+var Mark;
 (function (Mark) {
     Mark[Mark["AREA"] = 'area'] = "AREA";
     Mark[Mark["BAR"] = 'bar'] = "BAR";
@@ -6246,8 +6249,7 @@ exports.defaultLegendConfig = {
     Mark[Mark["CIRCLE"] = 'circle'] = "CIRCLE";
     Mark[Mark["SQUARE"] = 'square'] = "SQUARE";
     Mark[Mark["ERRORBAR"] = 'errorBar'] = "ERRORBAR";
-})(exports.Mark || (exports.Mark = {}));
-var Mark = exports.Mark;
+})(Mark = exports.Mark || (exports.Mark = {}));
 exports.AREA = Mark.AREA;
 exports.BAR = Mark.BAR;
 exports.LINE = Mark.LINE;
@@ -6262,6 +6264,7 @@ exports.PRIMITIVE_MARKS = [exports.AREA, exports.BAR, exports.LINE, exports.POIN
 
 },{}],53:[function(require,module,exports){
 "use strict";
+var ScaleType;
 (function (ScaleType) {
     ScaleType[ScaleType["LINEAR"] = 'linear'] = "LINEAR";
     ScaleType[ScaleType["LOG"] = 'log'] = "LOG";
@@ -6272,8 +6275,8 @@ exports.PRIMITIVE_MARKS = [exports.AREA, exports.BAR, exports.LINE, exports.POIN
     ScaleType[ScaleType["ORDINAL"] = 'ordinal'] = "ORDINAL";
     ScaleType[ScaleType["TIME"] = 'time'] = "TIME";
     ScaleType[ScaleType["UTC"] = 'utc'] = "UTC";
-})(exports.ScaleType || (exports.ScaleType = {}));
-var ScaleType = exports.ScaleType;
+})(ScaleType = exports.ScaleType || (exports.ScaleType = {}));
+var NiceTime;
 (function (NiceTime) {
     NiceTime[NiceTime["SECOND"] = 'second'] = "SECOND";
     NiceTime[NiceTime["MINUTE"] = 'minute'] = "MINUTE";
@@ -6282,12 +6285,11 @@ var ScaleType = exports.ScaleType;
     NiceTime[NiceTime["WEEK"] = 'week'] = "WEEK";
     NiceTime[NiceTime["MONTH"] = 'month'] = "MONTH";
     NiceTime[NiceTime["YEAR"] = 'year'] = "YEAR";
-})(exports.NiceTime || (exports.NiceTime = {}));
-var NiceTime = exports.NiceTime;
+})(NiceTime = exports.NiceTime || (exports.NiceTime = {}));
+var BandSize;
 (function (BandSize) {
     BandSize[BandSize["FIT"] = 'fit'] = "FIT";
-})(exports.BandSize || (exports.BandSize = {}));
-var BandSize = exports.BandSize;
+})(BandSize = exports.BandSize || (exports.BandSize = {}));
 exports.BANDSIZE_FIT = BandSize.FIT;
 exports.defaultScaleConfig = {
     round: true,
@@ -6310,11 +6312,11 @@ exports.defaultFacetScaleConfig = {
 
 },{}],54:[function(require,module,exports){
 "use strict";
-var aggregate_1 = require('./aggregate');
-var timeunit_1 = require('./timeunit');
-var type_1 = require('./type');
-var vlEncoding = require('./encoding');
-var mark_1 = require('./mark');
+var aggregate_1 = require("./aggregate");
+var timeunit_1 = require("./timeunit");
+var type_1 = require("./type");
+var vlEncoding = require("./encoding");
+var mark_1 = require("./mark");
 exports.DELIM = '|';
 exports.ASSIGN = '=';
 exports.TYPE = ',';
@@ -6400,12 +6402,12 @@ exports.parseFieldDef = parseFieldDef;
 
 },{"./aggregate":8,"./encoding":47,"./mark":52,"./timeunit":58,"./type":60}],55:[function(require,module,exports){
 "use strict";
+var SortOrder;
 (function (SortOrder) {
     SortOrder[SortOrder["ASCENDING"] = 'ascending'] = "ASCENDING";
     SortOrder[SortOrder["DESCENDING"] = 'descending'] = "DESCENDING";
     SortOrder[SortOrder["NONE"] = 'none'] = "NONE";
-})(exports.SortOrder || (exports.SortOrder = {}));
-var SortOrder = exports.SortOrder;
+})(SortOrder = exports.SortOrder || (exports.SortOrder = {}));
 function isSortField(sort) {
     return !!sort && !!sort['field'] && !!sort['op'];
 }
@@ -6413,13 +6415,13 @@ exports.isSortField = isSortField;
 
 },{}],56:[function(require,module,exports){
 "use strict";
-var config_1 = require('./config');
-var encoding_1 = require('./encoding');
-var mark_1 = require('./mark');
-var stack_1 = require('./stack');
-var channel_1 = require('./channel');
-var vlEncoding = require('./encoding');
-var util_1 = require('./util');
+var config_1 = require("./config");
+var encoding_1 = require("./encoding");
+var mark_1 = require("./mark");
+var stack_1 = require("./stack");
+var channel_1 = require("./channel");
+var vlEncoding = require("./encoding");
+var util_1 = require("./util");
 function isSomeFacetSpec(spec) {
     return spec['facet'] !== undefined;
 }
@@ -6611,19 +6613,19 @@ exports.isStacked = isStacked;
 
 },{"./channel":11,"./config":44,"./encoding":47,"./mark":52,"./stack":57,"./util":61}],57:[function(require,module,exports){
 "use strict";
-var aggregate_1 = require('./aggregate');
-var channel_1 = require('./channel');
-var encoding_1 = require('./encoding');
-var mark_1 = require('./mark');
-var scale_1 = require('./scale');
-var util_1 = require('./util');
+var aggregate_1 = require("./aggregate");
+var channel_1 = require("./channel");
+var encoding_1 = require("./encoding");
+var mark_1 = require("./mark");
+var scale_1 = require("./scale");
+var util_1 = require("./util");
+var StackOffset;
 (function (StackOffset) {
     StackOffset[StackOffset["ZERO"] = 'zero'] = "ZERO";
     StackOffset[StackOffset["CENTER"] = 'center'] = "CENTER";
     StackOffset[StackOffset["NORMALIZE"] = 'normalize'] = "NORMALIZE";
     StackOffset[StackOffset["NONE"] = 'none'] = "NONE";
-})(exports.StackOffset || (exports.StackOffset = {}));
-var StackOffset = exports.StackOffset;
+})(StackOffset = exports.StackOffset || (exports.StackOffset = {}));
 function stack(mark, encoding, stacked) {
     if (util_1.contains([StackOffset.NONE, null, false], stacked)) {
         return null;
@@ -6680,10 +6682,11 @@ exports.stack = stack;
 
 },{"./aggregate":8,"./channel":11,"./encoding":47,"./mark":52,"./scale":53,"./util":61}],58:[function(require,module,exports){
 "use strict";
-var channel_1 = require('./channel');
-var datetime_1 = require('./datetime');
-var scale_1 = require('./scale');
-var util_1 = require('./util');
+var channel_1 = require("./channel");
+var datetime_1 = require("./datetime");
+var scale_1 = require("./scale");
+var util_1 = require("./util");
+var TimeUnit;
 (function (TimeUnit) {
     TimeUnit[TimeUnit["YEAR"] = 'year'] = "YEAR";
     TimeUnit[TimeUnit["MONTH"] = 'month'] = "MONTH";
@@ -6707,8 +6710,7 @@ var util_1 = require('./util');
     TimeUnit[TimeUnit["YEARQUARTER"] = 'yearquarter'] = "YEARQUARTER";
     TimeUnit[TimeUnit["QUARTERMONTH"] = 'quartermonth'] = "QUARTERMONTH";
     TimeUnit[TimeUnit["YEARQUARTERMONTH"] = 'yearquartermonth'] = "YEARQUARTERMONTH";
-})(exports.TimeUnit || (exports.TimeUnit = {}));
-var TimeUnit = exports.TimeUnit;
+})(TimeUnit = exports.TimeUnit || (exports.TimeUnit = {}));
 exports.SINGLE_TIMEUNITS = [
     TimeUnit.YEAR,
     TimeUnit.QUARTER,
@@ -6939,13 +6941,13 @@ exports.template = template;
 
 },{}],60:[function(require,module,exports){
 "use strict";
+var Type;
 (function (Type) {
     Type[Type["QUANTITATIVE"] = 'quantitative'] = "QUANTITATIVE";
     Type[Type["ORDINAL"] = 'ordinal'] = "ORDINAL";
     Type[Type["TEMPORAL"] = 'temporal'] = "TEMPORAL";
     Type[Type["NOMINAL"] = 'nominal'] = "NOMINAL";
-})(exports.Type || (exports.Type = {}));
-var Type = exports.Type;
+})(Type = exports.Type || (exports.Type = {}));
 exports.QUANTITATIVE = Type.QUANTITATIVE;
 exports.ORDINAL = Type.ORDINAL;
 exports.TEMPORAL = Type.TEMPORAL;
@@ -6971,8 +6973,8 @@ exports.getFullName = getFullName;
 
 },{}],61:[function(require,module,exports){
 "use strict";
-var stringify = require('json-stable-stringify');
-var util_1 = require('datalib/src/util');
+var stringify = require("json-stable-stringify");
+var util_1 = require("datalib/src/util");
 exports.keys = util_1.keys;
 exports.extend = util_1.extend;
 exports.duplicate = util_1.duplicate;
@@ -6984,8 +6986,8 @@ exports.isObject = util_1.isObject;
 exports.isString = util_1.isString;
 exports.isNumber = util_1.isNumber;
 exports.isBoolean = util_1.isBoolean;
-var util_2 = require('datalib/src/util');
-var util_3 = require('datalib/src/util');
+var util_2 = require("datalib/src/util");
+var util_3 = require("datalib/src/util");
 function pick(obj, props) {
     var copy = {};
     props.forEach(function (prop) {
@@ -7189,8 +7191,8 @@ exports.differ = differ;
 
 },{"datalib/src/util":2,"json-stable-stringify":3}],62:[function(require,module,exports){
 "use strict";
-var util_1 = require('./util');
-var mark_1 = require('./mark');
+var util_1 = require("./util");
+var mark_1 = require("./mark");
 exports.DEFAULT_REQUIRED_CHANNEL_MAP = {
     text: ['text'],
     line: ['x', 'y'],
@@ -7234,7 +7236,7 @@ exports.getEncodingMappingError = getEncodingMappingError;
 
 },{"./mark":52,"./util":61}],63:[function(require,module,exports){
 "use strict";
-var util_1 = require('./util');
+var util_1 = require("./util");
 function isUnionedDomain(domain) {
     if (!util_1.isArray(domain)) {
         return 'fields' in domain;
@@ -7252,29 +7254,29 @@ exports.isDataRefDomain = isDataRefDomain;
 
 },{"./util":61}],64:[function(require,module,exports){
 "use strict";
-exports.axis = require('./axis');
-exports.aggregate = require('./aggregate');
-exports.bin = require('./bin');
-exports.channel = require('./channel');
+exports.axis = require("./axis");
+exports.aggregate = require("./aggregate");
+exports.bin = require("./bin");
+exports.channel = require("./channel");
 exports.compile = require('./compile/compile').compile;
-exports.config = require('./config');
-exports.data = require('./data');
-exports.datetime = require('./datetime');
-exports.encoding = require('./encoding');
-exports.facet = require('./facet');
-exports.fieldDef = require('./fielddef');
-exports.legend = require('./legend');
-exports.mark = require('./mark');
-exports.scale = require('./scale');
-exports.shorthand = require('./shorthand');
-exports.sort = require('./sort');
-exports.spec = require('./spec');
-exports.stack = require('./stack');
-exports.timeUnit = require('./timeunit');
-exports.transform = require('./transform');
-exports.type = require('./type');
-exports.util = require('./util');
-exports.validate = require('./validate');
+exports.config = require("./config");
+exports.data = require("./data");
+exports.datetime = require("./datetime");
+exports.encoding = require("./encoding");
+exports.facet = require("./facet");
+exports.fieldDef = require("./fielddef");
+exports.legend = require("./legend");
+exports.mark = require("./mark");
+exports.scale = require("./scale");
+exports.shorthand = require("./shorthand");
+exports.sort = require("./sort");
+exports.spec = require("./spec");
+exports.stack = require("./stack");
+exports.timeUnit = require("./timeunit");
+exports.transform = require("./transform");
+exports.type = require("./type");
+exports.util = require("./util");
+exports.validate = require("./validate");
 exports.version = require('../package.json').version;
 
 },{"../package.json":7,"./aggregate":8,"./axis":9,"./bin":10,"./channel":11,"./compile/compile":14,"./config":44,"./data":45,"./datetime":46,"./encoding":47,"./facet":48,"./fielddef":49,"./legend":51,"./mark":52,"./scale":53,"./shorthand":54,"./sort":55,"./spec":56,"./stack":57,"./timeunit":58,"./transform":59,"./type":60,"./util":61,"./validate":62}]},{},[64])(64)

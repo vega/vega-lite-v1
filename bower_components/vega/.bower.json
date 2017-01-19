@@ -37,12 +37,12 @@
     "src",
     "test"
   ],
-  "version": "2.6.3",
-  "_release": "2.6.3",
+  "version": "2.6.5",
+  "_release": "2.6.5",
   "_resolution": {
     "type": "version",
-    "tag": "v2.6.3",
-    "commit": "67e5be0b622f0e9f5af46b4913ebaa16797ab5e8"
+    "tag": "v2.6.5",
+    "commit": "1ac99f97e687d809ed1a69ecb85cf2de96c9b49b"
   },
   "_source": "https://github.com/vega/vega.git",
   "_target": "^2.6.0",
