@@ -249,10 +249,10 @@ You can use [Vega-Embed](https://github.com/vega/vega-embed) to embed your Vega-
   <title>Vega Lite Bar Chart</title>
   <meta charset="utf-8">
 
-  <script src="//d3js.org/d3.v3.min.js"></script>
-  <script src="//vega.github.io/vega/vega.js"></script>
-  <script src="//vega.github.io/vega-lite/vega-lite.js"></script>
-  <script src="//vega.github.io/vega-editor/vendor/vega-embed.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/2.6.5/vega.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/1.3.1/vega-lite.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/2.2.0/vega-embed.js" charset="utf-8"></script>
 
   <style media="screen">
     /* Add space between vega-embed links  */
