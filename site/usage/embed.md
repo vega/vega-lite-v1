@@ -12,10 +12,10 @@ The easiest way to use Vega-Lite on your own web page is with [vega-embed](https
 To embed a Vega-Lite specification on your web page first load the required libraries (D3, Vega, Vega-Lite, **Vega-Embed**).
 
 ```html
-<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="//vega.github.io/vega/vega.js" charset="utf-8"></script>
-<script src="//vega.github.io/vega-lite/vega-lite.js" charset="utf-8"></script>
-<script src="//vega.github.io/vega-editor/vendor/vega-embed.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.1/d3.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vega/2.6.5/vega.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/1.3.1/vega-lite.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/2.2.0/vega-embed.js" charset="utf-8"></script>
 ```
 
 We suggest that you install Vega-Lite with [npm](https://www.npmjs.com/package/vega-lite) to get the latest stable version. To install Vega-Lite with npm, simply install it as you would any other npm module.
