@@ -401,6 +401,19 @@ nav a:hover {
   font-size: .95em;
 }
 
+/* Announcement */
+.announcement {
+  padding: .6em 0;
+  background-color: #b53e3e;
+  color: white;
+  text-align: center;
+}
+
+.announcement a {
+  color: white;
+  text-decoration: underline;
+}
+
 /* Code Examples */
 .example {
   display: flex;
